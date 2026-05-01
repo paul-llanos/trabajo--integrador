@@ -1,9 +1,49 @@
-# Datos numericos
-cpu = float(input("Ingrese el uso del CPU: "))
-ram = float(input("Ingrese el uso de de Memoria RAM: "))
-gb = int(input("Ingrese el espacio libre en disco [GB]: "))
+from funciones_de_validacion import *
+
+cpu_usada = input("Ingrese el uso del CPU: ")
+while not validacion_porcentaje_numerico(cpu_usada):
+    print("ingrese correctamente su numero")
+    cpu_usada = input("Ingrese el uso del CPU: ")
+else:
+    cpu_usada = int(cpu_usada)
+    print (type(cpu_usada))
+
+ram_usada =  input("Ingrese el uso de de Memoria RAM % : ")
+
+
+while not validacion_porcentaje_numerico(ram_usada):
+    print("ingrese correctamente su numero")
+    ram_usada = input("Ingrese el uso de memoria RAM % : ")
+    
+else:
+    ram_usada = int(ram_usada)
+
+espacio_disco = input("Ingrese el espacio libre en disco [GB]: ")
+
+while not validacion_numerico(espacio_disco):
+    print("ingrese correctamente su numero")
+    espacio_disco = input("Ingrese el espacio libre en disco [GB] : ")
+    
+else:
+    espacio_disco = int(espacio_disco)
+
 usuarios_conectados = int(input("Ingrese la cantidad de usuarios conectados: "))
+
+while not validacion_numerico(espacio_disco):
+    print("ingrese correctamente la cantidad de usuarios conectados")
+    espacio_disco = input("Ingrese la cantidad de usuarios conectados: ")
+    
+else:
+    usuarios_conectados = int(usuarios_conectados)
+
 procesos_activos = int(input("Ingrese la cantidad de procesos activos: "))
+
+while not validacion_numerico(procesos_activos):
+    print("ingrese correctamente la cantidad de procesos activos")
+    procesos_activos = input("Ingrese la cantidad de procesos activos: ")
+    
+else:
+    procesos_activos = int(procesos_activos)
 
 # Datos Categoricos
 sis_operativo = input("Ingrese el Sistema Operativo: [Linux] [Windows]...")
