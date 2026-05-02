@@ -1,4 +1,4 @@
-from funciones_de_validacion import *
+from funciones_de_validacion import validacion_numerico, validacion_porcentaje_numerico
 
 cpu_usada = input("Ingrese el uso del CPU: ")
 while not validacion_porcentaje_numerico(cpu_usada):
