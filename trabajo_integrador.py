@@ -87,7 +87,78 @@ print(f"tipo de servidor: {tipo_servidor}")
 print(f"nombre del servidor: {nombre_servidor}")
 print(f"nombre del Administrador responsable: {nombre_admin_res}")
 
-# # Nuevas variables
+#  Nuevas variables
+porcentaje_total_carga = (cpu_usada + ram_usada) / 2
+
+if espacio_disco < 10 or procesos_activos > 250:
+    recursos_disponibles = "Bajos"
+else:
+    recursos_disponibles = "Suficientes"
+
+problemas_detectados = "" 
+recomendaciones = ""
+
+if cpu_usada > 85 and ram_usada > 80:
+    problemas_detectados += "Sobrecarga."
+    recomendaciones += "Reducir o aumetar recursos."
+if espacio_disco < 10 or procesos_activos > 250:
+    problemas_detectados += "Sistema saturado"
+    recomendaciones = "Liberar discos"
+if estado_firewall != "Activo":
+    problemas_detectados += "Firewall Desactivado"
+    recomendaciones += "Activar Firewall"
+if 40 <= cpu_usada <= 70 and 40 <= ram_usada <= 70:
+    problemas_detectados += "La carga esta dentro de lo normal"
+if tipo_servidor == "web" and usuarios_conectados > 100 and cpu_usada > 75:
+    problemas_detectados += "Alta demanda en el servidor [web]"
+    recomendaciones += "Escalar recursos"
+if espacio_disco < 5 and cpu_usada > 70:
+    problemas_detectados += "Hay poco espacio en disco"
+    recomendaciones += "Ampliacion de almacenamiento"
+if procesos_activos > 300:
+    problemas_detectados += "MUchos procesos activos"
+    recomendaciones += "Optimizacion de procesos"
+if porcentaje_total_carga > 80:
+    problemas_detectados += "Carga elevada"
+    recomendaciones += "Revisar sistema" 
+
+#riesgo
+if cpu_usada > 85 or espacio_disco < 10 or estado_firewall != "activo":
+    riesgo = "Alto"
+elif porcentaje_total_carga > 60:
+    riesgo = "Medio"
+else:
+    riesgo = "Bajo"
+
+
+if porcentaje_total_carga > 80:
+    estado_general_servidor = "Critico"
+elif porcentaje_total_carga > 60:
+    estado_general_servidor = "Moderadoo"
+else:
+    estado_general_servidor = "Estable"
+
+print("Diagnostico sitema")
+print(f"Carga total: {porcentaje_total_carga}")
+print(f"estado general: {estado_general_servidor}")
+print(f"Nivel de riesgo: {riesgo}")
+print(f"Recursos: {recursos_disponibles}")
+
+print(" PROBLEMAS DETECTADOS")
+if problemas_detectados == "":
+    print("No se detectaron problemas")
+else:
+    print(problemas_detectados)
+
+print("\n--- RECOMENDACIONES ---")
+if recomendaciones == "":
+    print("No se requieren acciones")
+else:
+    print(recomendaciones)
+
+
+
+
 
 # porcetaje_total_carga = 0
 # riesgo = 0
