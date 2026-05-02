@@ -6,7 +6,7 @@ while not validacion_porcentaje_numerico(cpu_usada):
     cpu_usada = input("Ingrese el uso del CPU: ")
 else:
     cpu_usada = int(cpu_usada)
-    print (type(cpu_usada))
+
 
 ram_usada =  input("Ingrese el uso de de Memoria RAM % : ")
 
@@ -46,7 +46,7 @@ else:
     procesos_activos = int(procesos_activos)
 
 # Datos Categoricos
-sis_operativo = input("Ingrese el Sistema Operativo: [Linux] [Windows]...")
+sistema_operativo = input("Ingrese el Sistema Operativo: [Linux] [Windows]...")
 estado_firewall = input("Ingrese una opcion [Activo] [Inactivo] : ")
 tipo_servidor = input("Ingrese el tipo de servidor [web] [Base de datos] [Archivos] : ")
 
