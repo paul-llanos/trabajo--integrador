@@ -1,4 +1,5 @@
-# Datos numericos 
+# Valida los datos ingresados sea un numero entre 1 y 
+# Retorna true si es valido false si no lo es 
 def validacion_porcentaje_numerico(num):
     if num =="":
         return False
@@ -8,13 +9,15 @@ def validacion_porcentaje_numerico(num):
     
     else:
         return True
+# Valida que el dato ingresado sea un numero mayo a 0
+# Se utilizara para valores como de procesos, usuarios y espacio de discos
 def validacion_numerico(num):
     if num == "":
         return False
     num = int(num)
     if num >= 0:
         return True
-
+# Valida que el dato ingresado coincida con las opciones permitidas
 def validacion_datos_categoricos(dato, tipo):
     if dato == "":
         return False
@@ -32,7 +35,7 @@ def validacion_datos_categoricos(dato, tipo):
             return True
 
     return False
-    
+# Verifica que la cadena ingresada no este vacia, se utiliza para validar nombres
 def validacion_cadena(cadena):
     if cadena == "":
         return False    

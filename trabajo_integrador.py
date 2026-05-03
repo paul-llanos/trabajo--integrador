@@ -30,7 +30,7 @@ nombre_admin_res = ""
 nombre_servidor = ""
 sistema_operativo = ""
 tipo_servidor = ""
-
+# validacion del sistema mediante datos del administrador y servidor
 while nombre_admin_res != NOMBRE_ADMINISTRADOR or nombre_servidor != NOMBRE_SERVIDOR or sistema_operativo != SISTEMA_OPERATIVO or tipo_servidor != TIPO_SERVIDOR:
 
     nombre_admin_res = input("Ingrese el nombre del Administrador responsable: ")
@@ -68,7 +68,7 @@ print("BIENVENIDO AL SISTEMA DE [MONITOR DE SERVIDORES]\n")
     
 iniciar_sistema = input("Desea iniciar el sistema? [si] / [no]: ")
 if iniciar_sistema == "si":
-
+# Ingreso y validacio de datos del servidor
     cpu_usada = input("Ingrese el uso del CPU % : ")
     while not validacion_porcentaje_numerico(cpu_usada):
         print("ingrese correctamente su numero")
@@ -134,7 +134,7 @@ if iniciar_sistema == "si":
    
 
    
-
+# Verificacion del estado del CPU y La RAM mediante reglas condicionales
     if cpu_usada > CPU_CIRTICO and ram_usada > RAM_CRITICA:
         riesgo_cpu_ram = "critico"
         problema_ram_cpu = "Sobrecarga en RAM y CPU."
@@ -149,7 +149,7 @@ if iniciar_sistema == "si":
         riesgo_cpu_ram = "ninguno"
         problema_ram_cpu = "El servidor se encuentra en buen estado."
         recomendacion_cpu_ram = "Mantener el servidor en estos valores."
-
+# Verificacion de la carga del sistema segun los procesos activos y usuarioa conectados
     if procesos_activos > PROCESOS_CRITICOS and usuarios_conectados > USUARIO_MAXIMOS:
         riesgo_procesos_usuarios = "critica"
         problema_procesos_usuarios = "Demasiados procesos y usuarios conectados."
@@ -168,7 +168,7 @@ if iniciar_sistema == "si":
         riesgo_disco = "critico"
         problema_disco = "Espacio de almacenamiento crítico"
         recomendacion_disco = "Liberar espacio inmediatamente"
-
+# Evaluacion del almacenamiento del servidor
     elif espacio_disco < DISCO_LLENO:
         riesgo_disco = "medio"
         problema_disco = "Espacio de almacenamiento reducido"
@@ -178,7 +178,7 @@ if iniciar_sistema == "si":
         riesgo_disco = "normal"
         problema_disco = "El servidor se encuentra en buen estado."
         recomendacion_disco = "Mantener el servidor en estos valores."  
-
+#Evaluacion del estado de seguridad del servidor (Firewall)
     if estado_firewall == "inactivo":
         riesgo_firewall = "critico"
         problema_firewall = "Posible ataque al sistema"
@@ -191,7 +191,7 @@ if iniciar_sistema == "si":
 
     
 
-
+#Muestra de diagnostico del servidor con riesgos, problemas y recomendaciones
     print("\n DIAGNOSTICO DE SERVIDOR \n")
     print("CPU y RAM:\n")
     print(f"riesgo: {riesgo_cpu_ram}")
