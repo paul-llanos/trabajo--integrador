@@ -1,11 +1,37 @@
 from funciones_de_validacion import validacion_numerico, validacion_porcentaje_numerico, validacion_datos_categoricos, validacion_cadena
 NOMBRE_ADMINISTRADOR = "admin"
 NOMBRE_SERVIDOR = "servidor"
+SISTEMA_OPERATIVO = "linux"
+TIPO_SERVIDOR = "base de datos"
+CPU_CIRTICO = 95
+CPU_ALTA = 75
+RAM_CRITICA = 90
+RAM_ALTA = 70
+PROCESOS_CRITICOS = 150
+PROCESOS_ALTOS = 110
+USUARIO_MAXIMOS = 90
+DISCO_LLENO = 60
+DISCO_CRITICO = 20
+
+porcentaje_total_carga = 0
+riesgo_cpu_ram = ""
+riesgo_procesos_usuarios = ""
+riesgo_disco_firewall = ""
+recomendacion_cpu_ram = ""
+recomendacion_procesos_usuarios = ""
+recomendacion_disco_firewall = ""
+problema_ram_cpu = ""
+problema_procesos_usuarios = ""
+problema_disco_firewall = ""
+estado_general_servidor = ""
+
 
 nombre_admin_res = ""
 nombre_servidor = ""
+sistema_operativo = ""
+tipo_servidor = ""
 
-while nombre_admin_res != NOMBRE_ADMINISTRADOR or nombre_servidor != NOMBRE_SERVIDOR:
+while nombre_admin_res != NOMBRE_ADMINISTRADOR or nombre_servidor != NOMBRE_SERVIDOR or sistema_operativo != SISTEMA_OPERATIVO or tipo_servidor != TIPO_SERVIDOR:
 
     nombre_admin_res = input("Ingrese el nombre del Administrador responsable: ")
 
@@ -18,10 +44,23 @@ while nombre_admin_res != NOMBRE_ADMINISTRADOR or nombre_servidor != NOMBRE_SERV
     while not validacion_cadena(nombre_servidor):
         print("no puede dejar el dato en blanco")
         nombre_servidor = input("Ingrese el nombre del servidor: ")
+    sistema_operativo = input("Ingrese el Sistema Operativo: [linux] [windows]: ")
 
-    if nombre_admin_res != NOMBRE_ADMINISTRADOR or nombre_servidor != NOMBRE_SERVIDOR:
+    while not validacion_datos_categoricos(sistema_operativo, "so"):
+        print("ingrese correctamente el dato")
+        sistema_operativo = input("Ingrese el Sistema Operativo: [linux] [windows]: ")
+        
+    tipo_servidor = input("Ingrese el tipo de servidor [web] [base de datos] [archivos]: ")
+
+    while not validacion_datos_categoricos(tipo_servidor, "servidor"):
+        print("ingrese correctamente el dato")
+        tipo_servidor = input("Ingrese el tipo de servidor: ")
+
+    if nombre_admin_res != NOMBRE_ADMINISTRADOR or nombre_servidor != NOMBRE_SERVIDOR or sistema_operativo != SISTEMA_OPERATIVO or tipo_servidor != TIPO_SERVIDOR:
         print("\ncredenciales incorrectas!!!\nINTENTE NUEVAMENTE\n")
-
+    else:
+        break
+    
 print("\nDATOS INGRESADOS CORRECTAMENTE:\n")
 print(f"administrador: {nombre_admin_res}")
 print(f"servidor: {nombre_servidor}\n")
@@ -29,13 +68,6 @@ print("BIENVENIDO AL SISTEMA DE [MONITOR DE SERVIDORES]\n")
     
 iniciar_sistema = input("Desea iniciar el sistema? [si] / [no]: ")
 if iniciar_sistema == "si":
-
-      
-    tipo_servidor = input("Ingrese el tipo de servidor [web] [base de datos] [archivos]: ")
-
-    while not validacion_datos_categoricos(tipo_servidor, "servidor"):
-        print("ingrese correctamente el dato")
-        tipo_servidor = input("Ingrese el tipo de servidor: ")
 
     cpu_usada = input("Ingrese el uso del CPU % : ")
     while not validacion_porcentaje_numerico(cpu_usada):
@@ -80,12 +112,6 @@ if iniciar_sistema == "si":
     else:
         procesos_activos = int(procesos_activos)
 
-    # Datos Categoricos
-    sistema_operativo = input("Ingrese el Sistema Operativo: [linux] [windows]: ")
-
-    while not validacion_datos_categoricos(sistema_operativo, "so"):
-        print("ingrese correctamente el dato")
-        sistema_operativo = input("Ingrese el Sistema Operativo: [linux] [windows]: ")
 
     estado_firewall = input("Ingrese una opcion [activo] [inactivo]: ")
 
@@ -93,10 +119,6 @@ if iniciar_sistema == "si":
         print("ingrese correctamente el dato")
         estado_firewall = input("Ingrese una opcion [activo] [inactivo]: ")
         
-
-
-
-    # Cadenas
 
 
     print("\n")
@@ -109,79 +131,104 @@ if iniciar_sistema == "si":
     print(f"sistema operativo: {sistema_operativo}")
     print(f"estado del firewall: {estado_firewall}")
     print(f"tipo de servidor: {tipo_servidor}")
-    print(f"nombre del servidor: {nombre_servidor}")
-    print(f"nombre del Administrador responsable: {nombre_admin_res}")
+   
 
-    #  Nuevas variables
-    porcentaje_total_carga = (cpu_usada + ram_usada) / 2
+   
 
-    if espacio_disco < 10 or procesos_activos > 250:
-        recursos_disponibles = "Bajos"
+    if cpu_usada > CPU_CIRTICO and ram_usada > RAM_CRITICA:
+        riesgo_cpu_ram = "critico"
+        problema_ram_cpu = "Sobrecarga en RAM y CPU."
+        recomendacion_cpu_ram = "Reducir consumo de CPU y RAM o aumentar capacidad."
+
+    elif cpu_usada > CPU_ALTA or ram_usada > RAM_ALTA:
+        riesgo_cpu_ram = "medio"
+        problema_ram_cpu = "Consumo elevado de recursos."
+        recomendacion_cpu_ram = "Monitorear el uso de CPU y RAM."
+
     else:
-        recursos_disponibles = "Suficientes"
+        riesgo_cpu_ram = "ninguno"
+        problema_ram_cpu = "El servidor se encuentra en buen estado."
+        recomendacion_cpu_ram = "Mantener el servidor en estos valores."
 
-    problemas_detectados = "" 
-    recomendaciones = ""
+    if procesos_activos > PROCESOS_CRITICOS and usuarios_conectados > USUARIO_MAXIMOS:
+        riesgo_procesos_usuarios = "critica"
+        problema_procesos_usuarios = "Demasiados procesos y usuarios conectados."
+        recomendacion_procesos_usuarios = "Reducir la cantidad de procesos o limitar usuarios."
 
-    if cpu_usada > 85 and ram_usada > 80:
-        problemas_detectados += "Sobrecarga."
-        recomendaciones += "Reducir o aumetar recursos."
-    if espacio_disco < 10 or procesos_activos > 250:
-        problemas_detectados += "Sistema saturado"
-        recomendaciones = "Liberar discos"
-    if estado_firewall != "Activo":
-        problemas_detectados += "Firewall Desactivado"
-        recomendaciones += "Activar Firewall"
-    if 40 <= cpu_usada <= 70 and 40 <= ram_usada <= 70:
-        problemas_detectados += "La carga esta dentro de lo normal"
-    if tipo_servidor == "web" and usuarios_conectados > 100 and cpu_usada > 75:
-        problemas_detectados += "Alta demanda en el servidor [web]"
-        recomendaciones += "Escalar recursos"
-    if espacio_disco < 5 and cpu_usada > 70:
-        problemas_detectados += "Hay poco espacio en disco"
-        recomendaciones += "Ampliacion de almacenamiento"
-    if procesos_activos > 300:
-        problemas_detectados += "MUchos procesos activos"
-        recomendaciones += "Optimizacion de procesos"
-    if porcentaje_total_carga > 80:
-        problemas_detectados += "Carga elevada"
-        recomendaciones += "Revisar sistema" 
+    elif procesos_activos > PROCESOS_ALTOS or usuarios_conectados > USUARIO_MAXIMOS:
+        riesgo_procesos_usuarios = "medio"
+        problema_procesos_usuarios = "Alta carga de procesos o usuarios."
+        recomendacion_procesos_usuarios = "Monitorear el sistema y optimizar procesos."
 
-    #riesgo
-    if cpu_usada > 85 or espacio_disco < 10 or estado_firewall != "activo":
-        riesgo = "Alto"
-    elif porcentaje_total_carga > 60:
-        riesgo = "Medio"
     else:
-        riesgo = "Bajo"
+        riesgo_procesos_usuarios = "normal"
+        problema_procesos_usuarios = "El sistema funciona con carga normal."
+        recomendacion_procesos_usuarios = "No se requieren acciones."
+    if espacio_disco < DISCO_CRITICO:
+        riesgo_disco = "critico"
+        problema_disco = "Espacio de almacenamiento crítico"
+        recomendacion_disco = "Liberar espacio inmediatamente"
 
+    elif espacio_disco < DISCO_LLENO:
+        riesgo_disco = "medio"
+        problema_disco = "Espacio de almacenamiento reducido"
+        recomendacion_disco = "Monitorear y liberar archivos"
 
-    if porcentaje_total_carga > 80:
-        estado_general_servidor = "Critico"
-    elif porcentaje_total_carga > 60:
-        estado_general_servidor = "Moderadoo"
     else:
-        estado_general_servidor = "Estable"
+        riesgo_disco = "normal"
+        problema_disco = "El servidor se encuentra en buen estado."
+        recomendacion_disco = "Mantener el servidor en estos valores."  
 
-    print("Diagnostico sitema")
-    print(f"Carga total: {porcentaje_total_carga}")
-    print(f"estado general: {estado_general_servidor}")
-    print(f"Nivel de riesgo: {riesgo}")
-    print(f"Recursos: {recursos_disponibles}")
+    if estado_firewall == "inactivo":
+        riesgo_firewall = "critico"
+        problema_firewall = "Posible ataque al sistema"
+        recomendacion_firewall = "activar firewall y realizar un chequeo de seguridad inmediatamente"
 
-    print(" PROBLEMAS DETECTADOS")
-    if problemas_detectados == "":
-        print("No se detectaron problemas")
     else:
-        print(problemas_detectados)
+        riesgo_firewall = "ninguno"
+        problema_firewall = "El servidor se encuentra en buen estado."
+        recomendacion_firewall = "Mantener el firewall activo."
 
-    print("\n--- RECOMENDACIONES ---")
-    if recomendaciones == "":
-        print("No se requieren acciones")
-    else:
-        print(recomendaciones)
+    
+
+
+    print("\n DIAGNOSTICO DE SERVIDOR \n")
+    print("CPU y RAM:\n")
+    print(f"riesgo: {riesgo_cpu_ram}")
+    print(f"problema: {problema_ram_cpu}")
+    print(f"recomendacion: {recomendacion_cpu_ram}")
+    print("\n PROCESOS Y USUARIOS:\n")
+    print(f"riesgo: {riesgo_procesos_usuarios}")
+    print(f"problema: {problema_procesos_usuarios}")
+    print(f"recomendacion: {recomendacion_procesos_usuarios}")
+    print("\n ESPACIO DEL DISCO:\n")
+    print(f"riesgo: {riesgo_disco}")
+    print(f"problema: {problema_disco}")
+    print(f"recomendacion: {recomendacion_disco}")
+    print("\n FIREWALL:\n")
+    print(f"riesgo: {riesgo_firewall}")
+    print(f"problema: {problema_firewall}")
+    print(f"recomendacion: {recomendacion_firewall}")
+
 else:
-    print(f"\n Saliendo del sistema... ")
+    print(f"\n Saliendo del sistema...  ")
+
+#     problemas_detectados = problema_ram_cpu + problema_procesos_usuarios + problema_disco + problema_firewall
+#     recomendaciones = recomendacion_cpu_ram + recomendacion_procesos_usuarios + recomendacion_disco + recomendacion_firewall
+
+# #     print(" PROBLEMAS DETECTADOS")
+#     if problemas_detectados == "":
+#         print("No se detectaron problemas")
+#     else:
+#         print(problemas_detectados)
+
+#     print("\n--- RECOMENDACIONES ---")
+#     if recomendaciones == "":
+#         print("No se requieren acciones")
+#     else:
+#         print(recomendaciones)
+# else:
+#     print(f"\n Saliendo del sistema... ")
 
 
 
