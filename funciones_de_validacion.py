@@ -1,4 +1,4 @@
-# Datos numericos
+# Datos numericos 
 def validacion_porcentaje_numerico(num):
     if num =="":
         return False
