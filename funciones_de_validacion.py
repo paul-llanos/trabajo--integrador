@@ -14,6 +14,8 @@ def validacion_numerico(num):
     num = int(num)
     if num >= 0:
         return True
+    else:
+        return False
 
 def validacion_datos_categoricos(dato, tipo):
     if dato == "":
