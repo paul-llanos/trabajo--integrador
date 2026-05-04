@@ -1,5 +1,7 @@
 # Valida los datos ingresados sea un numero entre 1 y 
 # Retorna true si es valido false si no lo es 
+# Valida los datos ingresados sea un numero entre 1 y 
+# Retorna true si es valido false si no lo es 
 def validacion_porcentaje_numerico(num):
     if num =="":
         return False
