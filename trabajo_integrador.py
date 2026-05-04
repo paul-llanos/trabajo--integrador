@@ -79,7 +79,7 @@ print("BIENVENIDO AL SISTEMA DE [DIAGNOSTICO DE SERVIDORES]\n")
 iniciar_sistema = input("Desea iniciar el test? [si] / [no]: ")
 
 if iniciar_sistema == "si":
-
+# Ingreso y validacio de datos del servidor
     cpu_usada = input("Ingrese el uso del CPU % : ")
     while not validacion_porcentaje_numerico(cpu_usada):
         print("ingrese correctamente su numero")
