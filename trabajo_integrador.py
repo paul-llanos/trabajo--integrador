@@ -205,7 +205,7 @@ if iniciar_sistema == "si":
         intensidad_cpu_usuarios = cpu_usada / usuarios_conectados
         if intensidad_cpu_usuarios > 45:
             contador = contador + 1
-            problema_usuarios += f"ALERTA: Carga anómala. Cada usuario consume {intensidad_cpu_usuarios}% de CPU. Posible proceso colgado."
+            problema_usuarios += f"ALERTA: Carga anormalmala. Cada usuario consume {intensidad_cpu_usuarios}% de CPU. Posible proceso colgado."
 # VERIFICAMOS POSIBLE PROBLRMA DE RAM Y DISCO
     if ram_riesgo == "critico" and riesgo_disco == "critico":
         usuarios_riesgo += f" | cuidado tiene la ram {ram_usada} y a su disco le quedan menos de {espacio_disco} GB su servidor puede caer"
@@ -217,6 +217,7 @@ if iniciar_sistema == "si":
             contador = contador + 1
             usuarios_riesgo += " | CUIDADO"
             problema_usuarios += f" |  El usuario promedio tiene {procesos_por_usuario} procesos. Posible ataque cibernetico o fuga de hilos."
+            
 
     # VERIFICO SI EL SERVIDOR ES DE TIPO BASE DE DATOS O ARCHIVOS Y EL FIREWALL ESTA INACTIVO
         if (tipo_servidor == "base de datos" or tipo_servidor == "archivos") and (estado_firewall == "inactivo" and sistema_operativo == "windows"):
