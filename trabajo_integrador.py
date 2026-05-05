@@ -85,19 +85,23 @@ while nombre_admin_res != NOMBRE_ADMINISTRADOR or nombre_servidor != NOMBRE_SERV
         tipo_servidor = input("Ingrese el tipo de servidor: ")
 
     if nombre_admin_res != NOMBRE_ADMINISTRADOR or nombre_servidor != NOMBRE_SERVIDOR or sistema_operativo != SISTEMA_OPERATIVO or tipo_servidor != TIPO_SERVIDOR:
-        print(f"\ncredenciales incorrectas!!!\nINTENTE NUEVAMENTE\n")
+        print(f"\n==============================""\ncredenciales incorrectas!!!\nINTENTE NUEVAMENTE\n==============================")
     else:
         break
-
-print(f"\nDATOS INGRESADOS CORRECTAMENTE:\n")
-print(f"administrador: {nombre_admin_res}")
-print(f"servidor: {nombre_servidor}\n")
-print(f"BIENVENIDO AL SISTEMA DE [DIAGNOSTICO DE SERVIDORES]\n")
+print(f"\n==============================")
+print(f"DATOS INGRESADOS CORRECTAMENTE")
+print(f"==============================")
+print(f"\nadministrador: {nombre_admin_res}")
+print(f"\nservidor: {nombre_servidor}")
+print(f"\n==============================")
+print(f"BIENVENIDO AL SISTEMA DE [DIAGNOSTICO DE SERVIDORES]")
+print(f"==============================\n")
 
 # preguntamos si queremos iniciar el diagnostico
-iniciar_sistema = input(" Desea iniciar el test? [si] / [no]: ")
+iniciar_sistema = input("DESEA INICIAR EL TEST? [si] / [no]: ")
 
 if iniciar_sistema == "si":
+    print(f"\nComience a ingresar los datos del servidor\n")
 #  cargamos los datos y se validan que sean correctos para el diagnostico
     cpu_usada = input("Ingrese el uso del CPU % : ")
     while not validacion_porcentaje_numerico(cpu_usada):
@@ -105,16 +109,16 @@ if iniciar_sistema == "si":
         cpu_usada = input("Ingrese el uso del CPU % : ")
     cpu_usada = int(cpu_usada)
 
-    ram_usada = input(" Ingrese el uso de de Memoria RAM % : ")
+    ram_usada = input("Ingrese el uso de de Memoria RAM % : ")
     while not validacion_porcentaje_numerico(ram_usada):
         print(f"ingrese correctamente su dato")
-        ram_usada = input(" Ingrese el uso de memoria RAM % : ")
+        ram_usada = input("Ingrese el uso de memoria RAM % : ")
     ram_usada = int(ram_usada)
 
-    espacio_disco = input(" Ingrese el espacio libre en disco [GB]: ")
+    espacio_disco = input("Ingrese el espacio libre en disco [GB]: ")
     while not validacion_numerico(espacio_disco):
         print(f"ingrese correctamente su numero")
-        espacio_disco = input(" Ingrese el espacio libre en disco [GB] : ")
+        espacio_disco = input("Ingrese el espacio libre en disco [GB] : ")
     espacio_disco = float(espacio_disco)
 
     usuarios_conectados = input("Ingrese la cantidad de usuarios conectados: ")
@@ -129,10 +133,10 @@ if iniciar_sistema == "si":
         procesos_activos = input("Ingrese la cantidad de procesos activos: ")
     procesos_activos = int(procesos_activos)
 
-    estado_firewall = input(" Ingrese una opcion [activo] [inactivo]: ")
+    estado_firewall = input("Ingrese una opcion [activo] [inactivo]: ")
     while not validacion_datos_categoricos(estado_firewall, "firewall"):
         print(f"ingrese correctamente el dato")
-        estado_firewall = input(" Ingrese una opcion [activo] [inactivo]: ")
+        estado_firewall = input("Ingrese una opcion [activo] [inactivo]: ")
 # mostramos los datos ingresados
     print(f"\nDATOS INGRESADOS: \n")
     print(f"uso de cpu: {cpu_usada}% ")
@@ -201,29 +205,37 @@ if iniciar_sistema == "si":
             ram_riesgo += " | CUIDADO"
             problema_ram += f" | RAM: {ram_usada}% cuello de botella respecto a COU: {cpu_usada}% Diferencia de: {cuello_de_botella}%)"
             recomendacion_ram += " | COMPRE UN MEJOR CPU"
-    # VERIFICAMOS POSIBLE AMENAZA PRO  EXCEDERSE CON EL USO CPU INDIVIDUAL
+    # VERIFICAMOS El INTENSIDAD DE CPU QUE ESTA OCUPANDO UN USUARIO 
     if usuarios_conectados > 0:
         intensidad_cpu_usuarios = cpu_usada / usuarios_conectados
         if intensidad_cpu_usuarios > 45:
             contador = contador + 1
-            problema_usuarios += f"ALERTA: Carga anormalmala. Cada usuario consume {intensidad_cpu_usuarios}% de CPU. Posible proceso colgado."
-# VERIFICAMOS POSIBLE PROBLRMA DE RAM Y DISCO
+            usuarios_riesgo += " | CUIDADO"
+            problema_usuarios += f" | Carga anormal. Cada usuario consume {intensidad_cpu_usuarios}% de CPU. Sospecha de ataque cibernetico."
+            recomendacion_usuarios += " | investigue a ese usuario."
+# VERIFICAMOS POSIBLE PROBLERMA DE RAM Y DISCO
     if ram_riesgo == "critico" and riesgo_disco == "critico":
-        usuarios_riesgo += f" | cuidado tiene la ram {ram_usada} y a su disco le quedan menos de {espacio_disco} GB su servidor puede caer"
-
-    # VERIFICO POSIBLE AMENA SI UN USUARIO TIENE MAS PROCESOS QUE LOS PERMITIDO
+        contador = contador + 1
+        riesgo_disco += " | CUIDADO"
+        ram_riesgo += " | CUIDADO"
+        problema_ram += f" | cuidado tiene la ram {ram_usada} y a su disco le quedan menos de {espacio_disco} GB su servidor puede caer"
+        problema_disco += f" | cuidado tiene el disco {espacio_disco} y a su ram le quedan menos de {ram_usada} GB su servidor puede colapsar"
+        recomendacion_ram += " | Limite el consumo de ram por usuario ."
+        recomendacion_disco += " | elimine archivos temporales del usuario."
+    # VERIFICO POSIBLE AMENAZA SI UN USUARIO TIENE MAS PROCESOS QUE LOS PERMITIDO
     if usuarios_conectados > 0:
         procesos_por_usuario = procesos_activos / usuarios_conectados
         if procesos_por_usuario > MAX_PROCESOS_POR_USER:
             contador = contador + 1
-            usuarios_riesgo += " | CUIDADO"
-            problema_usuarios += f" |  El usuario promedio tiene {procesos_por_usuario} procesos. Posible ataque cibernetico o fuga de hilos."
+            procesos_riesgo += " | CUIDADO"
+            problema_procesos += f" |  El el promedio de PROCESOS de cada usuario es {procesos_por_usuario} . Posible ataque cibernetico o fuga de hilos"
+            recomendacion_procesos += " | Haga una verificacion del servidor para estar seguro."
             
 
     # VERIFICO SI EL SERVIDOR ES DE TIPO BASE DE DATOS O ARCHIVOS Y EL FIREWALL ESTA INACTIVO
-        if (tipo_servidor == "base de datos" or tipo_servidor == "archivos") and (estado_firewall == "inactivo" and sistema_operativo == "windows"):
+        if (tipo_servidor == "base de datos" or tipo_servidor == "archivos") and (estado_firewall == "inactivo" and sistema_operativo == "linux"):
             contador = contador + 1
-            alerta += f"cuidado el servior de tipo: {tipo_servidor} esta vulnerable a ataques de {sistema_operativo}"
+            alerta += f"cuidado el servior de tipo: {tipo_servidor} esta vulnerable a ataques en este sistema operativo {sistema_operativo}"
         
     
     if contador == 0:
@@ -240,30 +252,35 @@ if iniciar_sistema == "si":
         
         print(f"         📊DIAGNOSTICO DE SERVIDOR📊\n")
         print(f"\n------------------------------")
-
+        
     # SOLO SE VAN A MOSTROS LOS RESULTADOS DE AQUELLOS QUE TIENEN RIESGO
-        if cpu_riesgo != "" or "CUIDADO" in cpu_riesgo:
+        if cpu_riesgo != "":
             print(f"\n[ CPU ]")
             print(f"Riesgo: {cpu_riesgo}")
             print(f"Problema: {problema_cpu}")
             print(f"Recomendación: {recomendacion_cpu}")
 
         
-        if ram_riesgo != "" or "CUIDADO" in ram_riesgo:
+        if ram_riesgo != "":
             print(f"\n[ RAM ]")
             print(f"Riesgo: {ram_riesgo}")
             print(f"Problema: {problema_ram}")
             print(f"Recomendación: {recomendacion_ram}")
 
         
-        if procesos_riesgo != "" or usuarios_riesgo != "" or "ALERTA" in problema_usuarios:
+        if procesos_riesgo != "critico":
             print(f"\n------------------------------")
-            print(f"[ PROCESOS Y USUARIOS ]")
-            if procesos_riesgo != "":
-                print(f"PROCESOS: {procesos_riesgo} | {problema_procesos}")
-            if usuarios_riesgo != "" or "ALERTA" in problema_usuarios:
-                print(f"USUARIOS: {usuarios_riesgo} | {problema_usuarios}")
-            print(f"Recomendación: {recomendacion_procesos} / {recomendacion_usuarios}")
+            print(f"[  PROCESOS ]")
+            print(f"Riesgo: {procesos_riesgo}")
+            print(f"Problema: {problema_procesos}")
+            print(f"Recomendación: {recomendacion_procesos}")
+
+        if usuarios_riesgo != "":
+            print(f"\n------------------------------")
+            print(f"[ USUARIOS ]")
+            print(f"Riesgo: {usuarios_riesgo}")
+            print(f"Problema: {problema_usuarios}")
+            print(f"Recomendación: {recomendacion_usuarios}")    
 
         
         if riesgo_disco != "":
@@ -283,8 +300,11 @@ if iniciar_sistema == "si":
 
        
         if alerta != "":
-            print(f"\n!!!!!!!!!!!!!!!!!")
+            print(f"\n!!!!!!!!!!!!!!!!!\n")
             print(f"ALERTAS DEL SISTEMA: {alerta}")
+            print(f"\n!!!!!!!!!!!!!!!!!\n")
 
 else:
+    print(f"\n==============================")
     print(f"\n Saliendo del sistema... ")
+    print(f"\n==============================")

@@ -10,41 +10,47 @@ Sistema orientado a la detección de fallas, cuellos de botella y vulnerabilidad
 
 ## **Objetivo del Programa**
 - Evaluacion del Rendimiento del servidor 
-- Detectar Riesgos 
-- Generar Alertas
+- Detectar si hay Riesgo
+- Detectar el Problema
 - Brindar Recomendaciones
 
 ## **Logica de diagnostico**
 El sistema evalúa el estado del servidor mediante un conjunto de reglas que analizan distintas métricas del sistema.
 ### **Reglas Implementadas**
-- Se genera sobrecarga crítica cuando `cpu_usada` o `ram_usada` superan el 85%.
-- Se considera estado estable cuando `cpu_usada` y `ram_usada` están en un rango medio de uso.
-- Se activa alerta de mantenimiento cuando `espacio_disco` es menor a 60 GB o `procesos_activos`es elevado (or).
-- Se detectara el riesgo de seguridad cuando `estado_firewall` está en "inactivo" (Not)
-- Se detecta riesgo en servidores de tipo "base de datos" o "archivos" con `espacio_disco` bajo y `ram_usada` elevada.
+- La CPU se considera en Riesgo  cuando la misma supera el 85% `CPU_MAX`
+- La RAM Se considera en Riesgo  cuando la misma supera el 85% `RAM_MAX` 
+- El ALMACENAMIENTO se considera en Riesgo  cuando la misma esta por debajo de 60 `DISCO_DISPONIBLE_MIN`
+- Los PROCESOS se consideran en Riesgo  cuando los mismos superan los 120 procesos `PROCESOS MAX`
+- Los USUARIOS se consideran en Riesgo  cuando los mismos superan los 50 usuarios simultaneos `USUARIOS_MAX`
+- El FIREWALL se detectara en riesgo de seguridad cuando el `estado_firewall` está en "inactivo" 
+- Se detectara riesgo si hay cuello de botella del Hardware (CPU o RAM) si estos tienen una direfencia de uso del 40% `RAM_CPU_CUELLO_DE_BOTELLA`
+- Se detectara riesgo en los USUARIOS si es que % de CPU que ocupa un solo usuario es mayor a 20% `MAX_PROCESOS_POR_USER`
+- Se detectara riesgo en la RAM o en DISCO si LA RAM Y el DISCO se escuentran en estado CRITICO 
+- Se derectara riesgo en los PROCESOS si la canditad de 40 procesos `POSIBLE_ATAQUE` es usada por un solo usuario
+- Se detecta riesgo si  (TIPO SERVIDOR = BASE DE DATOS o ARCHIVOS) y (SISTEMA OPERATIVO = LINUX Y FIREWALL = INACTIVO) 
 
 
 ## **Flujo de Decisión**
 El sistema sigue un proceso secuencial para analizar el estado del servidor:
 
-1. **Validación de credenciales**  
-   Se utiliza un bucle `while` para verificar que los datos de acceso (administrador, servidor y sistema operativo) sean correctos.
+1. **Ingreso y validacion de credenciales**  
+   Se le pedira al usuario que ingrese el (administrador, servidor, tipo de base de datos y sistema operativo) las mismas  seran validas mediante funciones importadas
 
-2. **Ingreso y validación de datos**  
-   Se solicitan 10 variables (numéricas, categóricas y de texto), las cuales son validadas mediante funciones específicas.
+2. **INICO**  
+   Se le preguntara al usuario si desea iniciar el diagnotico o salir
 
-3. **Cálculo de variables derivadas**  
-   Se generan valores adicionales, como los procesos por usuario, para mejorar el análisis.
+3. **Ingreso y validación de datos**  
+   Se solicitaran variables referentes al servidor, las cuales son validadas mediante funciones importadas.
 
 4. **Evaluación de reglas**  
-   Se aplican las condiciones del sistema para detectar posibles problemas.
+   Se aplican las logicas de diagnostico del sistema para detectar problemas y dar soluciones.
 
 5. **Contador de riesgos**  
    Cada regla cumplida incrementa un contador que determina el estado final del servidor:
 
    - 0 → Servidor en buen estado  
    - 1 a 2 : Fuera de lo normal  
-   - 3 a 4 : Estado de alerta / elevado 
+   - 3 a 4 : Estado de alerta
    - 5 o más : Estado crítico  
 
 ## **Ejemplo de Salida**
@@ -54,16 +60,41 @@ CPU: 95% | RAM: 40% | Disco: 25 GB
 Usuarios: 2 | Procesos: 80  
 SO: windows | Firewall: Inactivo  
 
-**Estado:** Crítico  
 
-**Problemas detectados:**
-- Sobrecarga de cpu y posible cuello de botella  
-- Consumo elevado por usuario (posibles procesos anómalos)  
-- Bajo espacio en disco  
-- Firewall desactivado  
+**Datos Salida:**
+------------------------------
 
-**Recomendaciones:**
-- Optimizar uso de CPU y recursos  
-- Revisar procesos y usuarios activos  
-- Liberar o ampliar almacenamiento  
-- activar el firewall  
+[ CPU ]
+Riesgo: critico| CUIDADO
+Problema: sobrecarga en CPU. |  CPU: 95% cuello de botella respecto a RAM: 40% Diferencia de: 55% de uso
+Recomendación: optimizar el consumo del CPU. | COMPRE UNA MEJOR RAM
+
+------------------------------
+[  PROCESOS ]
+Riesgo:  | CUIDADO
+Problema:  |  El el promedio de PROCESOS de cada usuario es 40.0 . Posible ataque cibernetico o fuga de hilos
+Recomendación:  | Haga una verificacion del servidor para estar seguro.
+
+------------------------------
+[ USUARIOS ]
+Riesgo:  | CUIDADO
+Problema:  | Carga anormal. Cada usuario consume 47.5% de CPU. Sospecha de ataque cibernetico.
+Recomendación:  | investigue a ese usuario.
+
+------------------------------
+[ ALMACENAMIENTO ]
+Riesgo: critico
+Problema: EL ALMACENAMIENTO ESTA POR AGOTARSE
+Recomendación: Aumentar capacidad de almacenamiento o eliminar archivos.
+
+------------------------------
+[ SEGURIDAD - FIREWALL ]
+Riesgo: critico
+Problema: El firewall esta desactivado.
+Recomendación: Activar el firewall y revisar el servidor por posibles amenazas.
+
+!!!!!!!!!!!!!!!!!
+
+ALERTAS DEL SISTEMA: cuidado el servior de tipo: base de datos esta vulnerable a ataques en este sistema operativo linux
+
+!!!!!!!!!!!!!!!!! 
