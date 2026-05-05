@@ -1,7 +1,7 @@
 # Sistema de Diagnóstico de Servidores 
-## **Descripcion**
-Sistema orientado a la detección de fallas, cuellos de botella y vulnerabilidades en servidores mediante un motor de decisiones basado en reglas lógicas.
 
+## **Descripcion**
+Sistema de monitoreo avanzado que utiliza un motor de decisiones para evaluar la salud de la infraestructura en tiempo real. El programa detecta saturaciones críticas en el uso de CPU, RAM y almacenamiento, identificando cuellos de botella y vulnerabilidades de seguridad mediante reglas lógicas predefinidas. Su objetivo es transformar métricas complejas en diagnósticos claros y recomendaciones preventivas para garantizar la estabilidad del servidor.
 ---
 
 ## **Integrantes**
