@@ -54,16 +54,42 @@ CPU: 95% | RAM: 40% | Disco: 25 GB
 Usuarios: 2 | Procesos: 80  
 SO: windows | Firewall: Inactivo  
 
-**Estado:** Crítico  
+**Salida:**
+DATOS INGRESADOS: 
 
-**Problemas detectados:**
-- Sobrecarga de cpu y posible cuello de botella  
-- Consumo elevado por usuario (posibles procesos anómalos)  
-- Bajo espacio en disco  
-- Firewall desactivado  
+uso de cpu: 95% 
+uso de ram: 40% 
+espacio libre en disco: 25.0 GB
+cantidad de usuarios conectados: 2
+cantidad de procesos activos: 80
+sistema operativo: linux
+estado del firewall: inactivo
 
-**Recomendaciones:**
-- Optimizar uso de CPU y recursos  
-- Revisar procesos y usuarios activos  
-- Liberar o ampliar almacenamiento  
-- activar el firewall  
+------------------------------
+  ATENCION: SERVIDOR EN ESTADO CRITICO
+         DIAGNOSTICO DE SERVIDOR
+
+
+------------------------------
+
+[ CPU ]
+Riesgo: critico| CUIDADO
+Problema: sobrecarga en CPU. |  CPU: 95% cuello de botella respecto a RAM: 40% Diferencia de: 55% de uso)
+Recomendación: optimizar el consumo del CPU. | COMPRE UNA MEJOR RAM
+
+------------------------------
+[ PROCESOS Y USUARIOS ]
+USUARIOS:  | CUIDADO | ALERTA: Carga anormalmala. Cada usuario consume 47.5% de CPU. Posible proceso colgado. |  El usuario promedio tiene 40.0 procesos. Posible ataque cibernetico o fuga de hilos.
+Recomendación:  / 
+
+------------------------------
+[ ALMACENAMIENTO ]
+Riesgo: critico
+Problema: EL ALMACENAMIENTO ESTA POR AGOTARSE
+Recomendación: Aumentar capacidad de almacenamiento o eliminar archivos.
+
+------------------------------
+[ SEGURIDAD - FIREWALL ]
+Riesgo: critico
+Problema: El firewall esta desactivado.
+Recomendación: Activar el firewall y revisar el servidor por posibles amenazas.
