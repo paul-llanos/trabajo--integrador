@@ -1,67 +1,69 @@
 # Sistema de Diagnóstico de Servidores 
+## **Descripcion**
+Sistema orientado a la detección de fallas, cuellos de botella y vulnerabilidades en servidores mediante un motor de decisiones basado en reglas lógicas.
 
- detección de fallas y vulnerabilidades en servidores mediante un motor de decisiones basado en reglas lógicas, brindando recomendaciones técnicas .
+---
 
-#1. Reglas de Diagnóstico
-El motor de decisiones evalúa el estado del servidor utilizando un mínimo de 8 reglas lógicas que combinan múltiples variables[cite: 4, 7]:
+## **Integrantes**
+- Cristian Llanos
+- Bryan Vargas
 
-_Sobrecarga de CPU/RAM**: Se activa si el uso de CPU o RAM supera el **85%** (CPU_MAX/RAM_MAX)[cite: 6, 7].
-_Riesgo de Seguridad**: Detecta peligro si el firewall no está en estado "activo" (Uso de **NOT**)[cite: 6, 7].
-_Almacenamiento Crítico**: Alerta si el espacio disponible es menor a **60 GB**[cite: 6, 7].
-_Cuello de Botella: Identifica desequilibrios si la diferencia entre CPU y RAM es mayor al **40%** (Rango numérico)[cite: 6, 7].*   **Detección de Anomalías**: Identifica _posibles ataques si un usuario promedia más de **20 procesos**[cite: 6, 7].
-_Vulnerabilidad Específica: Evalúa riesgos si el servidor es de "base de datos" o "archivos" **Y** utiliza Windows con el firewall inactivo (Combinación **AND/OR**)[cite: 6, 7].
-_Riesgo de Caída: Alerta combinada cuando la memoria RAM y el disco se encuentran simultáneamente en estado crítico[cite: 6].
-_Carga Anómala: Detecta posibles procesos colgados o posibles amenazas pro el exeso de consumo si el consumo de CPU por usuario individual supera el **45%**.
+## **Objetivo del Programa**
+- Evaluacion del Rendimiento del servidor 
+- Detectar Riesgos 
+- Generar Alertas
+- Brindar Recomendaciones
 
-#  Flujo de Decisión
-El sistema opera bajo un flujo secuencial para garantizar la integridad de los resultados
+## **Logica de diagnostico**
+El sistema evalúa el estado del servidor mediante un conjunto de reglas que analizan distintas métricas del sistema.
+### **Reglas Implementadas**
+- Se genera sobrecarga crítica cuando `cpu_usada` o `ram_usada` superan el 85%.
+- Se considera estado estable cuando `cpu_usada` y `ram_usada` están en un rango medio de uso.
+- Se activa alerta de mantenimiento cuando `espacio_disco` es menor a 60 GB o `procesos_activos`es elevado (or).
+- Se detectara el riesgo de seguridad cuando `estado_firewall` está en "inactivo" (Not)
+- Se detecta riesgo en servidores de tipo "base de datos" o "archivos" con `espacio_disco` bajo y `ram_usada` elevada.
 
-_Validación de Credenciales: Un bucle while asegura que los datos de acceso (Admin, Servidor, SO) sean correctos antes de iniciar
-_Entrada y Validación: Se solicitan 10 variables (5 numéricas, 3 categóricas, 2 cadenas) validadas mediante el módulo de funciones_de_validacion.py
-_Cálculo de Variables Derivadas: Se procesan datos como "procesos por usuario" para profundizar el análisis
-_Contador de Riesgos**: Por cada regla incumplida, se incrementa un contador que define el nivel de estado
-    0 Riesgos: Servidor en buen estado.
-    1 - 2 Riesgos: Fuera de lo normal.
-    3 - 4 Riesgos: Estado de Alerta/Elevado.
-    5 o más: Estado Crítico.
 
-# Ejemplo de Salida
-El informe final utiliza f-strings para presentar un diagnóstico detallado con problemas y soluciones:
+## **Flujo de Decisión**
+El sistema sigue un proceso secuencial para analizar el estado del servidor:
 
-_DATOS INGRESADOS: 
-uso de cpu: 95% 
-uso de ram: 40% 
-espacio libre en disco: 25.0 GB
-cantidad de usuarios conectados: 2
-cantidad de procesos activos: 80
-sistema operativo: windows
-estado del firewall: inactivo
+1. **Validación de credenciales**  
+   Se utiliza un bucle `while` para verificar que los datos de acceso (administrador, servidor y sistema operativo) sean correctos.
 
- ATENCION: SERVIDOR EN ESTADO CRITICO
-         DIAGNOSTICO DE SERVIDOR
+2. **Ingreso y validación de datos**  
+   Se solicitan 10 variables (numéricas, categóricas y de texto), las cuales son validadas mediante funciones específicas.
 
-------------------------------
-[ CPU ]
-Riesgo: critico | CUIDADO
-Problema: sobrecarga en CPU. | CPU: 95% cuello de botella respecto a RAM: 40% Diferencia de: 55% de uso)
-Recomendación: optimizar el consumo del CPU. | COMPRE UNA MEJOR RAM
+3. **Cálculo de variables derivadas**  
+   Se generan valores adicionales, como los procesos por usuario, para mejorar el análisis.
 
-------------------------------
-[ PROCESOS Y USUARIOS ]
-USUARIOS:  | CUIDADO | ALERTA: Carga anómala. Cada usuario consume 47.5% de CPU. Posible proceso colgado. | El usuario promedio tiene 40.0 procesos. Posible ataque cibernetico o fuga de hilos.
-Recomendación:  / eliminar usuarios inactivos.
+4. **Evaluación de reglas**  
+   Se aplican las condiciones del sistema para detectar posibles problemas.
 
-------------------------------
-[ ALMACENAMIENTO ]
-Riesgo: critico
-Problema: EL ALMACENAMIENTO ESTA POR AGOTARSE
-Recomendación: Aumentar capacidad de almacenamiento o eliminar archivos.
+5. **Contador de riesgos**  
+   Cada regla cumplida incrementa un contador que determina el estado final del servidor:
 
-------------------------------
-[ SEGURIDAD - FIREWALL ]
-Riesgo: critico
-Problema: El firewall esta desactivado.
-Recomendación: Activar el firewall y revisar el servidor por posibles amenazas.
+   - 0 → Servidor en buen estado  
+   - 1 a 2 : Fuera de lo normal  
+   - 3 a 4 : Estado de alerta / elevado 
+   - 5 o más : Estado crítico  
 
-!!!!!!!!!!!!!!!!!
-ALERTAS DEL SISTEMA: cuidado el servior de tipo: base de datos esta vulnerable a ataques de windows
+## **Ejemplo de Salida**
+
+**Datos ingresados:**
+CPU: 95% | RAM: 40% | Disco: 25 GB  
+Usuarios: 2 | Procesos: 80  
+SO: windows | Firewall: Inactivo  
+
+**Estado:** Crítico  
+
+**Problemas detectados:**
+- Sobrecarga de cpu y posible cuello de botella  
+- Consumo elevado por usuario (posibles procesos anómalos)  
+- Bajo espacio en disco  
+- Firewall desactivado  
+
+**Recomendaciones:**
+- Optimizar uso de CPU y recursos  
+- Revisar procesos y usuarios activos  
+- Liberar o ampliar almacenamiento  
+- activar el firewall  
