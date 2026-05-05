@@ -61,9 +61,10 @@ intensidad_cpu_usuarios = 0
 alerta = ""
 contador = 0
 
+print("\nBIENVENIDO AL SISTEMA DE [ DIAGNOSTICO DE SERVIDORES ]\n------POR FAVOR INGRESE LOS DATOS DEL SU SERVIDOR--------\n")
 while nombre_admin_res != NOMBRE_ADMINISTRADOR or nombre_servidor != NOMBRE_SERVIDOR or sistema_operativo != SISTEMA_OPERATIVO or tipo_servidor != TIPO_SERVIDOR:
 
-    nombre_admin_res = input("Ingrese el nombre del Administrador responsable: ")
+    nombre_admin_res = input("Administrador responsable: ")
     while not validacion_cadena(nombre_admin_res):
         print(f"no puede dejar el dato en blanco")
         nombre_admin_res = input("Ingrese el nombre del Administrador responsable: ")
@@ -94,7 +95,7 @@ print(f"servidor: {nombre_servidor}\n")
 print(f"BIENVENIDO AL SISTEMA DE [DIAGNOSTICO DE SERVIDORES]\n")
 
 # preguntamos si queremos iniciar el diagnostico
-iniciar_sistema = input("Desea iniciar el test? [si] / [no]: ")
+iniciar_sistema = input(" Desea iniciar el test? [si] / [no]: ")
 
 if iniciar_sistema == "si":
 #  cargamos los datos y se validan que sean correctos para el diagnostico
@@ -104,16 +105,16 @@ if iniciar_sistema == "si":
         cpu_usada = input("Ingrese el uso del CPU % : ")
     cpu_usada = int(cpu_usada)
 
-    ram_usada = input("Ingrese el uso de de Memoria RAM % : ")
+    ram_usada = input(" Ingrese el uso de de Memoria RAM % : ")
     while not validacion_porcentaje_numerico(ram_usada):
         print(f"ingrese correctamente su dato")
-        ram_usada = input("Ingrese el uso de memoria RAM % : ")
+        ram_usada = input(" Ingrese el uso de memoria RAM % : ")
     ram_usada = int(ram_usada)
 
-    espacio_disco = input("Ingrese el espacio libre en disco [GB]: ")
+    espacio_disco = input(" Ingrese el espacio libre en disco [GB]: ")
     while not validacion_numerico(espacio_disco):
         print(f"ingrese correctamente su numero")
-        espacio_disco = input("Ingrese el espacio libre en disco [GB] : ")
+        espacio_disco = input(" Ingrese el espacio libre en disco [GB] : ")
     espacio_disco = float(espacio_disco)
 
     usuarios_conectados = input("Ingrese la cantidad de usuarios conectados: ")
@@ -128,10 +129,10 @@ if iniciar_sistema == "si":
         procesos_activos = input("Ingrese la cantidad de procesos activos: ")
     procesos_activos = int(procesos_activos)
 
-    estado_firewall = input("Ingrese una opcion [activo] [inactivo]: ")
+    estado_firewall = input(" Ingrese una opcion [activo] [inactivo]: ")
     while not validacion_datos_categoricos(estado_firewall, "firewall"):
         print(f"ingrese correctamente el dato")
-        estado_firewall = input("Ingrese una opcion [activo] [inactivo]: ")
+        estado_firewall = input(" Ingrese una opcion [activo] [inactivo]: ")
 # mostramos los datos ingresados
     print(f"\nDATOS INGRESADOS: \n")
     print(f"uso de cpu: {cpu_usada}% ")
@@ -227,17 +228,17 @@ if iniciar_sistema == "si":
     
     if contador == 0:
         print(f"\n----------------------------------------------\n")
-        print(f"\n SERVIDOR EN BUEN ESTADO \n")
+        print(f"\n ✅SERVIDOR EN BUEN ESTADO✅ \n")
     else:
         print(f"\n------------------------------")
         if contador < 3:
-            print(f"  ATENCION: SERVIDOR FUERA DE LO NORMAL")
+            print(f" ⚠️ ATENCION: SERVIDOR FUERA DE LO NORMAL⚠️")
         elif contador < 5:
-            print(f"  ATENCION: SERVIDOR EN ALERTA")
+            print(f"  🚨ATENCION: SERVIDOR EN ALERTA🚨")
         else:
-            print(f"  ATENCION: SERVIDOR EN ESTADO CRITICO")
+            print(f"  🔥ATENCION: SERVIDOR EN ESTADO CRITICO🔥")
         
-        print(f"         DIAGNOSTICO DE SERVIDOR\n")
+        print(f"         📊DIAGNOSTICO DE SERVIDOR📊\n")
         print(f"\n------------------------------")
 
     # SOLO SE VAN A MOSTROS LOS RESULTADOS DE AQUELLOS QUE TIENEN RIESGO
