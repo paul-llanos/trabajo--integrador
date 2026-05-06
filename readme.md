@@ -6,7 +6,7 @@
    El programa detecta saturaciones críticas en el uso de CPU, RAM y almacenamiento, identificando cuellos de botella y vulnerabilidades de seguridad mediante reglas lógicas .
    
    Su objetivo es transformar métricas complejas en diagnósticos claros y recomendaciones preventivas para garantizar la estabilidad del servidor.
----
+
 
 ## **Integrantes**
 - Cristian Llanos
