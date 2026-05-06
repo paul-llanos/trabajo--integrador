@@ -63,7 +63,7 @@ El sistema sigue un proceso secuencial para analizar el estado del servidor:
 
 CPU: 95% | RAM: 40% | Disco: 25 GB  
 Usuarios: 2 | Procesos: 80  
-SO: windows | Firewall: Inactivo  
+SO: linux | Firewall: Inactivo  
 
 
 **Datos que muestra:**

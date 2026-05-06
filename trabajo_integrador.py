@@ -228,7 +228,7 @@ if iniciar_sistema == "si":
         if procesos_por_usuario > MAX_PROCESOS_POR_USER:
             contador = contador + 1
             procesos_riesgo += " | CUIDADO"
-            problema_procesos += f" |  El el promedio de PROCESOS de cada usuario es {procesos_por_usuario} . Posible ataque cibernetico o fuga de hilos"
+            problema_procesos += f" |  El promedio de PROCESOS de cada usuario es {procesos_por_usuario} . Posible ataque cibernetico o fuga de hilos"
             recomendacion_procesos += " | Haga una verificacion del servidor para estar seguro."
             
 
@@ -268,7 +268,7 @@ if iniciar_sistema == "si":
             print(f"Recomendación: {recomendacion_ram}")
 
         
-        if procesos_riesgo != "critico":
+        if procesos_riesgo != "":
             print(f"\n------------------------------")
             print(f"[  PROCESOS ]")
             print(f"Riesgo: {procesos_riesgo}")
