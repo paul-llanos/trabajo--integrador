@@ -1,7 +1,11 @@
 # Sistema de Diagnóstico de Servidores 
 
  **Descripcion**
-   Sistema de monitoreo avanzado que utiliza un motor de decisiones para evaluar la salud de la infraestructura en tiempo real. El programa detecta saturaciones críticas en el uso de CPU, RAM y almacenamiento, identificando cuellos de botella y vulnerabilidades de seguridad mediante reglas lógicas predefinidas. Su objetivo es transformar métricas complejas en diagnósticos claros y recomendaciones preventivas para garantizar la estabilidad del servidor.
+   Sistema de monitoreo avanzado que utiliza un motor de decisiones para evaluar la salud de la infraestructura en tiempo real.
+
+   El programa detecta saturaciones críticas en el uso de CPU, RAM y almacenamiento, identificando cuellos de botella y vulnerabilidades de seguridad mediante reglas lógicas .
+   
+   Su objetivo es transformar métricas complejas en diagnósticos claros y recomendaciones preventivas para garantizar la estabilidad del servidor.
 ---
 
 ## **Integrantes**
@@ -56,13 +60,14 @@ El sistema sigue un proceso secuencial para analizar el estado del servidor:
 ## **Ejemplo de Salida**
 
 **Datos ingresados:**
+
 CPU: 95% | RAM: 40% | Disco: 25 GB  
 Usuarios: 2 | Procesos: 80  
 SO: windows | Firewall: Inactivo  
 
 
 **Datos que muestra:**
-------------------------------
+
 
 [ CPU ]
 Riesgo: critico| CUIDADO
