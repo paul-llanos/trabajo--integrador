@@ -1,4 +1,5 @@
-from funciones_de_validacion import validacion_numerico, validacion_porcentaje_numerico, validacion_datos_categoricos, validacion_cadena
+from funciones_de_validacion import validacion_numerico, validacion_porcentaje_numerico, validacion_datos_categoricos, validacion_cadena, validadcion_de_incio_de_diagnostico
+
 
 def dato_nombre_de_administrador ():
     nombre_admin_res = input("Administrador responsable: ")
@@ -30,7 +31,7 @@ def dato_de_tipo_sistema_operativo():
 
 def iniciar_sistema():
     iniciar_sistema = input("DESEA INICIAR EL TEST? [si] / [no]: ")
-    while not validacion_datos_categoricos(iniciar_sistema, "si/no"):
+    while not validadcion_de_incio_de_diagnostico(iniciar_sistema):
         print(f"ingrese correctamente el dato")
         iniciar_sistema = input("DESEA INICIAR EL TEST? [si] / [no]: ")
     return iniciar_sistema
@@ -76,8 +77,8 @@ def dato_procesos_activos():
     return procesos_activos
 
 def dato_estado_firewall():
-    estado_firewall = input("Ingrese el estado del firewall [abierto] [cerrado]: ")
+    estado_firewall = input("Ingrese el estado del firewall [activo] [inactivo]: ")
     while not validacion_datos_categoricos(estado_firewall, "firewall"):
         print(f"ingrese correctamente el dato")
-        estado_firewall = input("Ingrese el estado del firewall [abierto] [cerrado]: ")
+        estado_firewall = input("Ingrese el estado del firewall [activo] [inactivo]: ")
     return estado_firewall

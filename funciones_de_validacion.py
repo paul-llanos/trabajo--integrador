@@ -77,3 +77,7 @@ def validacion_cadena(cadena: str) -> bool:
         return False    
     else:  
         return True
+    
+def validadcion_de_incio_de_diagnostico(inicio_de_sistema):
+    if inicio_de_sistema == "si" or inicio_de_sistema == "no":
+        return True
