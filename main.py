@@ -1,6 +1,6 @@
 from inputs import (
     dato_nombre_de_administrador,
-    dato_de_nombre_de_servior,
+    dato_de_nombre_de_servidor,
     dato_de_tipo_sistema_operativo,
     dato_tipo_de_servidor,
     iniciar_sistema,
@@ -41,7 +41,7 @@ while axuliar:
     # INGRESAMOS LAS CREDENCIALES DE INGRESO
     nombre_admin_res = dato_nombre_de_administrador()
 
-    nombre_servidor = dato_de_nombre_de_servior()
+    nombre_servidor = dato_de_nombre_de_servidor()
 
     sistema_operativo = dato_de_tipo_sistema_operativo()
 

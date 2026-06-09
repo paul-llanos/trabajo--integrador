@@ -9,31 +9,42 @@ from funciones_de_validacion import (
 
 def dato_nombre_de_administrador() -> str:
     """
-    Solicita y valida el porcentaje de uso de CPU.
+    Solicita al usuario el nombre del administrador responsabley valida que
+    cumpla con los requisitos mínimos de longitud y contenido.
+
+    Mantiene un bucle  que insiste en la petición si el usuario
+    ingresa un texto inválido, vacío o con menos de 6 caracteres útiles.
 
     Returns:
-        int: Porcentaje de uso de CPU ingresado por el usuario.
+        str: El nombre del administrador validado.
     """
     nombre_admin_res = input("Administrador responsable: ")
+    
     while not validacion_cadena(nombre_admin_res):
-        print(f"no puede dejar el dato en blanco")
+        print("no puede dejar el dato en blanco o con menos de 6 caracteres")
         nombre_admin_res = input("Ingrese el nombre del Administrador responsable: ")
+        
     return nombre_admin_res
 
 
-def dato_de_nombre_de_servior() -> str:
+def dato_de_nombre_de_servidor() -> str:
     """
-    Solicita y valida el nombre del servidor.
+    Solicita al usuario el nombre del servidor  y valida que cumpla con los
+    requisitos mínimos de longitud y contenido.
+
+    Mantiene un bucle interactivo que insiste en la petición si el usuario
+    ingresa un texto inválido, vacío o con menos de 6 caracteres .
 
     Returns:
-        str: Nombre del servidor ingresado por el usuario.
+        str: El nombre del servidor validado.
     """
     nombre_servidor = input("Ingrese el nombre del servidor: ")
+    
     while not validacion_cadena(nombre_servidor):
-        print(f"no puede dejar el dato en blanco")
+        print("no puede dejar el dato en blanco o con menos de 6 caracteres")
         nombre_servidor = input("Ingrese el nombre del servidor: ")
+        
     return nombre_servidor
-
 
 def dato_tipo_de_servidor() -> str:
     """
@@ -85,23 +96,26 @@ def iniciar_sistema() -> str:
     return iniciar_sistema
 
 
-def dato_cpu() -> int:
+def dato_cpu() -> float:
     """
-    Solicita al usuario el porcentaje de uso de la CPU y valida
-    que el valor ingresado sea un porcentaje numérico válido.
+    Solicita al usuario el porcentaje de uso de la CPU por consola,
+    validando que el ingreso sea un número correcto entre 0 y 100.
+    
+    La función mantiene un bucle interactivo que insiste en la petición
+    hasta que el usuario introduce un formato numérico válido.
 
     Returns:
-        int: Porcentaje de uso de la CPU.
+        float: El porcentaje de uso de la CPU validado y convertido a tipo flotante.
     """
     cpu_usada = input("Ingrese el uso del CPU % : ")
+
     while not validacion_porcentaje_numerico(cpu_usada):
-        print(f"ingrese correctamente su numero")
+        print("Ingrese correctamente su numero")
         cpu_usada = input("Ingrese el uso del CPU % : ")
-    cpu_usada = int(cpu_usada)
+    cpu_usada = float(cpu_usada)
     return cpu_usada
 
-
-def dato_ram() -> int:
+def dato_ram() -> float:
     """
     Solicita al usuario el porcentaje de utilización de la memoria RAM
     del servidor y verifica que el valor ingresado sea válido.
@@ -113,7 +127,7 @@ def dato_ram() -> int:
     while not validacion_porcentaje_numerico(ram_usada):
         print(f"ingrese correctamente su dato")
         ram_usada = input("Ingrese el uso de memoria RAM % : ")
-    ram_usada = int(ram_usada)
+    ram_usada = float(ram_usada)
     return ram_usada
 
 

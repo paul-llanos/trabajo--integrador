@@ -87,3 +87,4 @@ def calculo_cantidad_de_errores_del_sistema(
         + diagnostico_de_vulnerabilidad[3]
     )
     return cantidad_de_errores_del_sistema
+

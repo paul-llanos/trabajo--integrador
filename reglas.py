@@ -25,8 +25,8 @@ def verificaion_de_credenciales(
         bool: Retorna False si son correctas, True de lo contrario.
 
     """
-    NOMBRE_ADMINISTRADOR = "admin"
-    NOMBRE_SERVIDOR = "servidor"
+    NOMBRE_ADMINISTRADOR = "admin01"
+    NOMBRE_SERVIDOR = "servidor01"
     SISTEMA_OPERATIVO = "linux"
     TIPO_SERVIDOR = "base de datos"
 
