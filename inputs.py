@@ -1,7 +1,13 @@
-from funciones_de_validacion import validacion_numerico, validacion_porcentaje_numerico, validacion_datos_categoricos, validacion_cadena, validadcion_de_incio_de_diagnostico
+from funciones_de_validacion import (
+    validacion_numerico,
+    validacion_porcentaje_numerico,
+    validacion_datos_categoricos,
+    validacion_cadena,
+    validadcion_de_incio_de_diagnostico,
+)
 
 
-def dato_nombre_de_administrador () -> str:
+def dato_nombre_de_administrador() -> str:
     """
     Solicita y valida el porcentaje de uso de CPU.
 
@@ -14,7 +20,8 @@ def dato_nombre_de_administrador () -> str:
         nombre_admin_res = input("Ingrese el nombre del Administrador responsable: ")
     return nombre_admin_res
 
-def dato_de_nombre_de_servior() -> str: 
+
+def dato_de_nombre_de_servior() -> str:
     """
     Solicita y valida el nombre del servidor.
 
@@ -27,6 +34,7 @@ def dato_de_nombre_de_servior() -> str:
         nombre_servidor = input("Ingrese el nombre del servidor: ")
     return nombre_servidor
 
+
 def dato_tipo_de_servidor() -> str:
     """
     Solicita al usuario el tipo de servidor y valida que
@@ -36,11 +44,14 @@ def dato_tipo_de_servidor() -> str:
         str: Tipo de servidor validado. Los valores permitidos
         son "web", "base de datos" o "archivos".
     """
-    tipo_servidor = input("Ingrese el tipo de servidor [web] [base de datos] [archivos]: ")
+    tipo_servidor = input(
+        "Ingrese el tipo de servidor [web] [base de datos] [archivos]: "
+    )
     while not validacion_datos_categoricos(tipo_servidor, "servidor"):
         print(f"ingrese correctamente el dato")
         tipo_servidor = input("Ingrese el tipo de servidor: ")
     return tipo_servidor
+
 
 def dato_de_tipo_sistema_operativo() -> str:
     """
@@ -57,6 +68,7 @@ def dato_de_tipo_sistema_operativo() -> str:
         sistema_operativo = input("Ingrese el Sistema Operativo: [linux] [windows]: ")
     return sistema_operativo
 
+
 def iniciar_sistema() -> str:
     """
     Solicita al usuario si desea iniciar el diagnóstico del sistema
@@ -72,7 +84,8 @@ def iniciar_sistema() -> str:
         iniciar_sistema = input("DESEA INICIAR EL TEST? [si] / [no]: ")
     return iniciar_sistema
 
-def dato_cpu () -> int:
+
+def dato_cpu() -> int:
     """
     Solicita al usuario el porcentaje de uso de la CPU y valida
     que el valor ingresado sea un porcentaje numérico válido.
@@ -86,6 +99,7 @@ def dato_cpu () -> int:
         cpu_usada = input("Ingrese el uso del CPU % : ")
     cpu_usada = int(cpu_usada)
     return cpu_usada
+
 
 def dato_ram() -> int:
     """
@@ -102,6 +116,7 @@ def dato_ram() -> int:
     ram_usada = int(ram_usada)
     return ram_usada
 
+
 def dato_espacio_de_disco() -> float:
     """
     Solicita al usuario el espacio libre disponible en disco y valida
@@ -116,6 +131,7 @@ def dato_espacio_de_disco() -> float:
         espacio_disco = input("Ingrese el espacio libre en disco [GB] : ")
     espacio_disco = float(espacio_disco)
     return espacio_disco
+
 
 def dato_usuarios_conectados() -> int:
     """
@@ -132,6 +148,7 @@ def dato_usuarios_conectados() -> int:
     usuarios_conectados = int(usuarios_conectados)
     return usuarios_conectados
 
+
 def dato_procesos_activos() -> int:
     """
     Solicita al usuario la cantidad de procesos activos del sistema
@@ -146,6 +163,7 @@ def dato_procesos_activos() -> int:
         procesos_activos = input("Ingrese la cantidad de procesos activos: ")
     procesos_activos = int(procesos_activos)
     return procesos_activos
+
 
 def dato_estado_firewall() -> str:
     """

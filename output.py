@@ -1,11 +1,16 @@
 from calculos import calculo_cantidad_de_errores_del_sistema
+
+
 def bienvenida_al_sistema() -> None:
     """
     Muestra un mensaje de bienvenida e introducción al sistema
     de diagnóstico de servidores.
     """
-    print("\nBIENVENIDO AL SISTEMA DE [ DIAGNOSTICO DE SERVIDORES ]\n------POR FAVOR INGRESE LOS DATOS DEL SU SERVIDOR--------\n")
+    print(
+        "\nBIENVENIDO AL SISTEMA DE [ DIAGNOSTICO DE SERVIDORES ]\n------POR FAVOR INGRESE LOS DATOS DEL SU SERVIDOR--------\n"
+    )
     print(f"\n==============================")
+
 
 def mostrar_exito_ingreso_de_datos(admin: str, servidor: str) -> None:
     """
@@ -29,7 +34,6 @@ def mostrar_exito_ingreso_de_datos(admin: str, servidor: str) -> None:
     print(f"==============================\n")
 
 
-
 def mostrar_salida_del_sistema() -> None:
     """
     Muestra un mensaje de despedida e informa al usuario que el
@@ -43,8 +47,17 @@ def mostrar_salida_del_sistema() -> None:
     print(f"\n Saliendo del sistema... ")
     print(f"\n==============================")
 
-def mostrar_datos_ingresados(cpu_usada: int, ram_usada: int, espacio_disco: float, usuarios_conectados: int, procesos_activos: int, sistema_operativo: str, estado_firewall: str) -> None:
-        """
+
+def mostrar_datos_ingresados(
+    cpu_usada: int,
+    ram_usada: int,
+    espacio_disco: float,
+    usuarios_conectados: int,
+    procesos_activos: int,
+    sistema_operativo: str,
+    estado_firewall: str,
+) -> None:
+    """
     Muestra en pantalla los datos ingresados por el usuario para
     el diagnóstico del servidor.
 
@@ -60,16 +73,25 @@ def mostrar_datos_ingresados(cpu_usada: int, ram_usada: int, espacio_disco: floa
     Returns:
         None: Esta función solo muestra información en pantalla.
     """
-        print(f"\nDATOS INGRESADOS: \n")
-        print(f"uso de cpu: {cpu_usada}% ")
-        print(f"uso de ram: {ram_usada}% ")
-        print(f"espacio libre en disco: {espacio_disco} GB")
-        print(f"cantidad de usuarios conectados: {usuarios_conectados}")
-        print(f"cantidad de procesos activos: {procesos_activos}")
-        print(f"sistema operativo: {sistema_operativo}")
-        print(f"estado del firewall: {estado_firewall}")
+    print(f"\nDATOS INGRESADOS: \n")
+    print(f"uso de cpu: {cpu_usada}% ")
+    print(f"uso de ram: {ram_usada}% ")
+    print(f"espacio libre en disco: {espacio_disco} GB")
+    print(f"cantidad de usuarios conectados: {usuarios_conectados}")
+    print(f"cantidad de procesos activos: {procesos_activos}")
+    print(f"sistema operativo: {sistema_operativo}")
+    print(f"estado del firewall: {estado_firewall}")
 
-def reporte_final_del_servidor(diagnostico_cpu: list, diagnostico_ram: list, diagnostico_usuarios:list, diagnostico_procesos:list, diagnostico_disco:list, diagnostico_firewall:list, diagnostico_de_vulnerabilidad:list) -> None:
+
+def reporte_final_del_servidor(
+    diagnostico_cpu: list,
+    diagnostico_ram: list,
+    diagnostico_usuarios: list,
+    diagnostico_procesos: list,
+    diagnostico_disco: list,
+    diagnostico_firewall: list,
+    diagnostico_de_vulnerabilidad: list,
+) -> None:
     """
     Genera y muestra el reporte final del diagnóstico del servidor.
 
@@ -89,7 +111,15 @@ def reporte_final_del_servidor(diagnostico_cpu: list, diagnostico_ram: list, dia
     Returns:
         None: Esta función genera y muestra el reporte en pantalla.
     """
-    total_alertas = calculo_cantidad_de_errores_del_sistema(diagnostico_cpu, diagnostico_ram, diagnostico_usuarios, diagnostico_procesos, diagnostico_disco, diagnostico_firewall, diagnostico_de_vulnerabilidad)
+    total_alertas = calculo_cantidad_de_errores_del_sistema(
+        diagnostico_cpu,
+        diagnostico_ram,
+        diagnostico_usuarios,
+        diagnostico_procesos,
+        diagnostico_disco,
+        diagnostico_firewall,
+        diagnostico_de_vulnerabilidad,
+    )
 
     if total_alertas == 0:
         print("\n----------------------------------------------\n")
@@ -107,8 +137,8 @@ def reporte_final_del_servidor(diagnostico_cpu: list, diagnostico_ram: list, dia
         print("        📊 DIAGNOSTICO DE SERVIDOR 📊\n")
         print("------------------------------")
 
-        #SOLO SE MUESTRAN LOS COMPONENTES CON RIESGO EN EL SERVIDOR
-        
+        # SOLO SE MUESTRAN LOS COMPONENTES CON RIESGO EN EL SERVIDOR
+
         if diagnostico_cpu[0] != "":
             print("\n[ CPU ]")
             print(f"Riesgo: {diagnostico_cpu[0]}")
@@ -149,10 +179,12 @@ def reporte_final_del_servidor(diagnostico_cpu: list, diagnostico_ram: list, dia
             print(f"Riesgo: {diagnostico_firewall[0]}")
             print(f"Problema: {diagnostico_firewall[1]}")
             print(f"Recomendación: {diagnostico_firewall[2]}")
-            
+
         # La alerta global de seguridad del sistema
         if diagnostico_de_vulnerabilidad[0] != "":
             print("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            print(f"🚨 ALERTAS DE SEGURIDAD GENERAL: {diagnostico_de_vulnerabilidad[1]}")
+            print(
+                f"🚨 ALERTAS DE SEGURIDAD GENERAL: {diagnostico_de_vulnerabilidad[1]}"
+            )
             print(f"Recomendación: {diagnostico_de_vulnerabilidad[2]}")
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
