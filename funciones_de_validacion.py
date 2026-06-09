@@ -78,6 +78,16 @@ def validacion_cadena(cadena: str) -> bool:
     else:  
         return True
     
-def validadcion_de_incio_de_diagnostico(inicio_de_sistema):
+def validadcion_de_incio_de_diagnostico(inicio_de_sistema:str) -> bool:
+    """
+    Valida que la respuesta de inicio del diagnóstico sea correcta.
+
+    Args:
+        inicio_de_sistema (str): Respuesta ingresada por el usuario.
+        Debe ser "si" o "no".
+
+    Returns:
+        bool: True si la respuesta es válida.
+    """
     if inicio_de_sistema == "si" or inicio_de_sistema == "no":
         return True

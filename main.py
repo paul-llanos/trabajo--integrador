@@ -1,9 +1,3 @@
-from calculos import (
-    calculo_cuello_de_botella,
-    calculo_intensidad_cpu_usuarios,
-    calculo_de_cantidad_de_procesos_por_usuarios,
-    calculo_cantidad_de_errores_del_sistema
-)
 from inputs import (
     dato_nombre_de_administrador,
     dato_de_nombre_de_servior,
@@ -22,7 +16,7 @@ from output import (
     mostrar_salida_del_sistema,
     mostrar_exito_ingreso_de_datos,
     mostrar_datos_ingresados,
-    reporte_final_del_servidor
+    reporte_final_del_servidor,
 )
 from reglas import (
     verificaion_de_credenciales,
@@ -36,7 +30,7 @@ from reglas import (
     verificacion_de_intensidad_de_cpu_por_usario,
     verificacion_de_estado_critico_en_ram_y_disco,
     verificacion_de_cantidad_de_procesos_por_usuario,
-    verificacion_de_vulnerabilidad
+    verificacion_de_vulnerabilidad,
 )
 
 axuliar = True
@@ -79,12 +73,20 @@ if iniciar_diagnostico == "si":
     estado_firewall = dato_estado_firewall()
 
     # MOSTRAMOS LOS DATOS INGRESADOS
-    mostrar_datos_ingresados(cpu_usada, ram_usada, espacio_disco, usuarios_conectados, procesos_activos, sistema_operativo, estado_firewall)
+    mostrar_datos_ingresados(
+        cpu_usada,
+        ram_usada,
+        espacio_disco,
+        usuarios_conectados,
+        procesos_activos,
+        sistema_operativo,
+        estado_firewall,
+    )
 
     # DIAGNOSTIGO CPU
     diagnostico_cpu = verificacion_de_cpu(cpu_usada)
     # DIAGNOSTIGO RAM
-    diagnostico_ram = verificacion_ram(ram_usada) 
+    diagnostico_ram = verificacion_ram(ram_usada)
     # DIAGNOSTIGO PROCESOS
     diagnostico_procesos = verificacion_procesos(procesos_activos)
     # DIAGNOSTIGO USUARIOS
@@ -94,27 +96,36 @@ if iniciar_diagnostico == "si":
     # DIAGNOSTIGO FIREWALL
     diagnostico_firewall = verificacion_firewall(estado_firewall)
 
-    #  CALCULAMOS  CUELLO DE BOTELLA DEL CPU Y RAM
-    cuello_de_botella = calculo_cuello_de_botella(cpu_usada, ram_usada)
     # VERIFICAMOS EL CUELLO DE BOTELLA
-    verificaciion_de_cuello_de_botella(cpu_usada, ram_usada, diagnostico_cpu, diagnostico_ram)
-    # CALCULAMOS LA INTENSIDAD DE CPU QUE ESTA OCUPANDO UN USUARIO
-    intensidad_cpu_usuarios = calculo_intensidad_cpu_usuarios(cpu_usada, usuarios_conectados)
+    verificaciion_de_cuello_de_botella(
+        cpu_usada, ram_usada, diagnostico_cpu, diagnostico_ram
+    )
     # VERIFICAMOS LA INTENSIDAD DE CPU QUE ESTA OCUPANDO UN USUARIO
-    verificacion_de_intensidad_de_cpu_por_usario(cpu_usada, usuarios_conectados, diagnostico_usuarios)
+    verificacion_de_intensidad_de_cpu_por_usario(
+        cpu_usada, usuarios_conectados, diagnostico_usuarios
+    )
     # VERIFICAMOS POSIBLE PROBLERMA DE RAM Y DISCO POR ESTADO CRITICO EN AMBOS CASOS
-    verificacion_de_estado_critico_en_ram_y_disco(ram_usada, espacio_disco, diagnostico_ram, diagnostico_disco)
-    # CALCULO DE CANTIDAD DE PROCESOS POR USARIO
-    procesos_por_usario = calculo_de_cantidad_de_procesos_por_usuarios(usuarios_conectados, procesos_activos)
+    verificacion_de_estado_critico_en_ram_y_disco(
+        ram_usada, espacio_disco, diagnostico_ram, diagnostico_disco
+    )
     # VERIFICACION POSIBLE AMENAZA SI UN USUARIO TIENE MAS PROCESOS DE LO NORMAL
-    verificacion_de_cantidad_de_procesos_por_usuario(usuarios_conectados, procesos_activos, diagnostico_procesos)
+    verificacion_de_cantidad_de_procesos_por_usuario(
+        usuarios_conectados, procesos_activos, diagnostico_procesos
+    )
     # VERIFICO SI HAY VULNERABILIDAD SI  EL SERVIDOR ES DE TIPO BASE DE DATOS O ARCHIVOS Y EL FIREWALL ESTA INACTIVO
-    diagnostico_de_vulnerabilidad = verificacion_de_vulnerabilidad(tipo_servidor,estado_firewall, sistema_operativo)
-    #CALCULAMOS LA CANTIDAD_DE_ERRORES_DEL_SISTEMA
-    cantidad_de_errores_del_sistema = calculo_cantidad_de_errores_del_sistema(diagnostico_cpu, diagnostico_ram, diagnostico_usuarios, diagnostico_procesos, diagnostico_disco, diagnostico_firewall, diagnostico_de_vulnerabilidad) 
+    diagnostico_de_vulnerabilidad = verificacion_de_vulnerabilidad(
+        tipo_servidor, estado_firewall, sistema_operativo
+    )
     # MOSTRAMOS EL DIAGNOSTICO FINAL
-    reporte_final_del_servidor(diagnostico_cpu, diagnostico_ram, diagnostico_usuarios, diagnostico_procesos, diagnostico_disco, diagnostico_firewall, diagnostico_de_vulnerabilidad)
-   
+    reporte_final_del_servidor(
+        diagnostico_cpu,
+        diagnostico_ram,
+        diagnostico_usuarios,
+        diagnostico_procesos,
+        diagnostico_disco,
+        diagnostico_firewall,
+        diagnostico_de_vulnerabilidad,
+    )
+
 else:
     mostrar_salida_del_sistema()
-

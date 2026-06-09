@@ -1,10 +1,24 @@
 from calculos import calculo_cantidad_de_errores_del_sistema
-def bienvenida_al_sistema():
+def bienvenida_al_sistema() -> None:
+    """
+    Muestra un mensaje de bienvenida e introducción al sistema
+    de diagnóstico de servidores.
+    """
     print("\nBIENVENIDO AL SISTEMA DE [ DIAGNOSTICO DE SERVIDORES ]\n------POR FAVOR INGRESE LOS DATOS DEL SU SERVIDOR--------\n")
     print(f"\n==============================")
 
-def mostrar_exito_ingreso_de_datos(admin: str, servidor: str):
-    """Confirma que el acceso fue otorgado con éxito."""
+def mostrar_exito_ingreso_de_datos(admin: str, servidor: str) -> None:
+    """
+    Muestra un mensaje de confirmación indicando que los datos
+    fueron ingresados correctamente y da la bienvenida al sistema.
+
+    Args:
+        admin (str): Nombre del administrador responsable.
+        servidor (str): Nombre del servidor registrado.
+
+    Returns:
+        None: Esta función solo muestra información en pantalla.
+    """
     print(f"\n==============================")
     print(f"✅ DATOS INGRESADOS CORRECTAMENTE")
     print(f"==============================")
@@ -16,13 +30,36 @@ def mostrar_exito_ingreso_de_datos(admin: str, servidor: str):
 
 
 
-def mostrar_salida_del_sistema():
+def mostrar_salida_del_sistema() -> None:
+    """
+    Muestra un mensaje de despedida e informa al usuario que el
+    sistema de diagnóstico de servidores se está cerrando.
+
+    Returns:
+        None: Esta función solo muestra información en pantalla.
+    """
     print(f"\n==============================")
     print(f"\nGracias por utilizar el sistema de diagnostico de servidores")
     print(f"\n Saliendo del sistema... ")
     print(f"\n==============================")
 
-def mostrar_datos_ingresados(cpu_usada, ram_usada, espacio_disco, usuarios_conectados, procesos_activos, sistema_operativo, estado_firewall):
+def mostrar_datos_ingresados(cpu_usada: int, ram_usada: int, espacio_disco: float, usuarios_conectados: int, procesos_activos: int, sistema_operativo: str, estado_firewall: str) -> None:
+        """
+    Muestra en pantalla los datos ingresados por el usuario para
+    el diagnóstico del servidor.
+
+    Args:
+        cpu_usada (int): Porcentaje de uso de la CPU.
+        ram_usada (int): Porcentaje de uso de la memoria RAM.
+        espacio_disco (float): Espacio libre disponible en disco en GB.
+        usuarios_conectados (int): Cantidad de usuarios conectados.
+        procesos_activos (int): Cantidad de procesos activos.
+        sistema_operativo (str): Sistema operativo del servidor.
+        estado_firewall (str): Estado del firewall del servidor.
+
+    Returns:
+        None: Esta función solo muestra información en pantalla.
+    """
         print(f"\nDATOS INGRESADOS: \n")
         print(f"uso de cpu: {cpu_usada}% ")
         print(f"uso de ram: {ram_usada}% ")
@@ -32,7 +69,26 @@ def mostrar_datos_ingresados(cpu_usada, ram_usada, espacio_disco, usuarios_conec
         print(f"sistema operativo: {sistema_operativo}")
         print(f"estado del firewall: {estado_firewall}")
 
-def reporte_final_del_servidor(diagnostico_cpu, diagnostico_ram, diagnostico_usuarios, diagnostico_procesos, diagnostico_disco, diagnostico_firewall, diagnostico_de_vulnerabilidad,):
+def reporte_final_del_servidor(diagnostico_cpu: list, diagnostico_ram: list, diagnostico_usuarios:list, diagnostico_procesos:list, diagnostico_disco:list, diagnostico_firewall:list, diagnostico_de_vulnerabilidad:list) -> None:
+    """
+    Genera y muestra el reporte final del diagnóstico del servidor.
+
+    A partir de los resultados de los distintos diagnósticos,
+    determina el estado general del servidor y muestra únicamente
+    los componentes que presentan alertas o riesgos.
+
+    Args:
+        diagnostico_cpu (list): Resultado del diagnóstico de CPU.
+        diagnostico_ram (list): Resultado del diagnóstico de memoria RAM.
+        diagnostico_usuarios (list): Resultado del diagnóstico de usuarios conectados.
+        diagnostico_procesos (list): Resultado del diagnóstico de procesos activos.
+        diagnostico_disco (list): Resultado del diagnóstico de almacenamiento.
+        diagnostico_firewall (list): Resultado del diagnóstico del firewall.
+        diagnostico_de_vulnerabilidad (list): Resultado del análisis de vulnerabilidades.
+
+    Returns:
+        None: Esta función genera y muestra el reporte en pantalla.
+    """
     total_alertas = calculo_cantidad_de_errores_del_sistema(diagnostico_cpu, diagnostico_ram, diagnostico_usuarios, diagnostico_procesos, diagnostico_disco, diagnostico_firewall, diagnostico_de_vulnerabilidad)
 
     if total_alertas == 0:
