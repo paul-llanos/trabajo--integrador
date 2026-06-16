@@ -45,12 +45,12 @@ El sistema implementa un patrón de diseño arquitectónico basado en la separac
 
 Este módulo de integración actúa como un orquestador que encapsula la complejidad del sistema y **divide el programa en 4 etapas limpias y secuenciales para el `main.py`**. La comunicación entre estas etapas se realiza mediante un pasaje de parámetros explícito a través de tuplas nativas, manteniendo la integridad de los datos sin recurrir a variables globales.
 
-
+```text
 [main.py] (Coordinador Principal)
 │
 ├──➔ 1. etapa_bienvenida_y_login() ➔ Retorna (sistema_operativo, tipo_servidor)
 │
-|     if iniciar_sistema() == "si"
+├──➔  if iniciar_sistema() == "si"
 │         │
 │         ├──➔ 2. etapa_carga_de_datos(sistema_operativo) ➔ Retorna (datos_ingresados)
 │         │
