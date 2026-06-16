@@ -34,7 +34,17 @@ from reglas import (
 )
 # PRIMERA ETAPA: bienvenida y login
 def etapa_bienvenida_y_login() -> tuple:
-    """Muestra la bienvenida y gestiona el bucle de credenciales."""
+    """
+    Gestiona la interfaz inicial de bienvenida y el bucle de autenticación del sistema.
+
+    Muestra el encabezado del programa y solicita interactivamente los datos de 
+    credenciales y entorno técnico del servidor. El bucle se repite hasta que las 
+    verificaciones de seguridad validen los datos ingresados contra el entorno predefinido.
+
+    Returns:
+        tuple: Una tupla que contiene (sistema_operativo, tipo_servidor), que representa
+               el entorno de software y el rol corporativo del servidor. 
+    """
     bienvenida_al_sistema()
     
     auxiliar = True
@@ -53,7 +63,21 @@ def etapa_bienvenida_y_login() -> tuple:
 
 # SEGUNDA ETAPA: CARGA DE DATOS
 def etapa_carga_de_datos(sistema_operativo: str) -> tuple:
-    """Solicita al usuario las métricas actuales del servidor."""
+    """
+    Pide al usuario los números y métricas actuales del servidor.
+    
+    Solicita de forma interactiva el uso de CPU, RAM, espacio en disco, 
+    usuarios, procesos y si el firewall está activo o no. Al final, 
+    muestra en pantalla un resumen de lo que el usuario tipeó.
+
+    Args:
+        sistema_operativo (str): El sistema operativo que se obtuvo en el login 
+                                 (sirve para mostrarlo en el resumen).
+
+    Returns:
+        tuple: Devuelve un paquete ordenado con las 6 métricas recolectadas:
+               (cpu_usada, ram_usada, espacio_disco, usuarios_conectados, procesos_activos, estado_firewall).
+    """
     print(f"\nComience a ingresar los datos del servidor\n")
     cpu_usada = dato_cpu()
     ram_usada = dato_ram()
@@ -69,12 +93,24 @@ def etapa_carga_de_datos(sistema_operativo: str) -> tuple:
     
     return cpu_usada, ram_usada, espacio_disco, usuarios_conectados, procesos_activos, estado_firewall
 
-
-# ======================================================================
 # TERCERA ETAPA: DIAGNÓSTICO===
-# =========================================================================
 def etapa_ejecucion_del_diagnostico(datos_ingresados: tuple, sistema_operativo: str, tipo_servidor: str) -> tuple:
-    """Procesa los datos a través de las reglas lógicas individuales y cruzadas."""
+    """
+    Analiza los datos recolectados usando el motor de reglas lógicas.
+    
+    Desempaqueta las métricas de hardware y ejecuta las reglas una por una. 
+    Primero evalúa los componentes individuales (CPU, RAM, etc) y luego 
+    hace los análisis cruzados (cuellos de botella, ataques concurrentes, etc.).
+
+    Args:
+        datos_ingresados (tuple): El paquete con los 6 datos de hardware de la Etapa 2.
+        sistema_operativo (str): El sistema operativo obtenido en el login.
+        tipo_servidor (str): El tipo de servidor obtenido en el login.
+
+    Returns:
+        tuple: Devuelve un paquete con los 7 resultados de los diagnósticos. 
+               Cada resultado es una lista interna con [riesgo, problema, recomendación, cantidad de errores].
+    """
     cpu_usada, ram_usada, espacio_disco, usuarios_conectados, procesos_activos, estado_firewall = datos_ingresados
     
     # Verificaciones base
@@ -101,5 +137,18 @@ def etapa_ejecucion_del_diagnostico(datos_ingresados: tuple, sistema_operativo: 
 
 # CUARTA ETAPA: REPORTE FINAL
 def etapa_reporte_final(resultados_de_diagnostico: tuple) -> None:
-    """Envía los resultados procesados al módulo de salida."""
+    """
+    Toma los resultados del diagnóstico y los manda a la pantalla final.
+    
+    Recibe el paquete completo con los 7 análisis calculados en la etapa anterior 
+    y se los pasa directamente a la función encargada de dibujar el reporte 
+    estético e imprimir las recomendaciones en la consola.
+
+    Args:
+        resultados_de_diagnostico (tuple): El paquete que contiene los 7 veredictos 
+                                           del servidor.
+
+    Returns:
+        None: No devuelve nada, su único trabajo es pasarle los datos al módulo de salida.
+    """
     reporte_final_del_servidor(resultados_de_diagnostico)

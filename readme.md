@@ -1,105 +1,114 @@
-# Sistema de Diagnóstico de Servidores 
+# Sistema de Diagnóstico de Servidores 🖥️
 
- **Descripcion**
-   Sistema de monitoreo avanzado que utiliza un motor de decisiones para evaluar la salud de la infraestructura en tiempo real.
+## 📝 Descripción
+Sistema de monitoreo avanzado para infraestructura de TI que utiliza un motor de decisiones secuencial para evaluar la salud de los servidores en tiempo real. 
 
-   El programa detecta saturaciones críticas en el uso de CPU, RAM y almacenamiento, identificando cuellos de botella y vulnerabilidades de seguridad mediante reglas lógicas .
-   
-   Su objetivo es transformar métricas complejas en diagnósticos claros y recomendaciones preventivas para garantizar la estabilidad del servidor.
+El programa detecta saturaciones críticas en el uso de CPU, RAM y almacenamiento, identificando cuellos de botella y vulnerabilidades de seguridad mediante reglas lógicas cruzadas y análisis heurístico. Su objetivo es transformar métricas complejas en diagnósticos claros y brindar recomendaciones preventivas para garantizar la estabilidad y seguridad operativa del servidor.
 
+---
 
-## **Integrantes**
-- Cristian Llanos
-- Bryan Vargas
+## 👥 Integrantes
+- **Cristian Llanos**
 
-## **Objetivo del Programa**
-- Evaluacion del Rendimiento del servidor 
-- Detectar si hay Riesgo
-- Detectar el Problema
-- Brindar Recomendaciones
+---
 
-## **Logica de diagnostico**
-El sistema evalúa el estado del servidor mediante un conjunto de reglas que analizan distintas métricas del sistema.
-### **Reglas Implementadas**
-- La CPU se considera en Riesgo  cuando la misma supera el 85% `CPU_MAX`
-- La RAM Se considera en Riesgo  cuando la misma supera el 85% `RAM_MAX` 
-- El ALMACENAMIENTO se considera en Riesgo  cuando la misma esta por debajo de 60 `DISCO_DISPONIBLE_MIN`
-- Los PROCESOS se consideran en Riesgo  cuando los mismos superan los 120 procesos `PROCESOS MAX`
-- Los USUARIOS se consideran en Riesgo  cuando los mismos superan los 50 usuarios simultaneos `USUARIOS_MAX`
-- El FIREWALL se detectara en riesgo de seguridad cuando el `estado_firewall` está en "inactivo" 
-- Se detectara riesgo si hay cuello de botella del Hardware (CPU o RAM) si estos tienen una direfencia de uso del 40% `RAM_CPU_CUELLO_DE_BOTELLA`
-- Se detectara riesgo en los USUARIOS si es que % de CPU que ocupa un solo usuario es mayor a 20% `MAX_PROCESOS_POR_USER`
-- Se detectara riesgo en la RAM o en DISCO si LA RAM Y el DISCO se escuentran en estado CRITICO 
-- Se derectara riesgo en los PROCESOS si la canditad de 40 procesos `POSIBLE_ATAQUE` es usada por un solo usuario
-- Se detecta riesgo si  (TIPO SERVIDOR = BASE DE DATOS o ARCHIVOS) y (SISTEMA OPERATIVO = LINUX Y FIREWALL = INACTIVO) 
+## 🎯 Objetivos del Programa
+* **Evaluación del Rendimiento:** Analizar las métricas clave de consumo de hardware.
+* **Detección de Riesgos:** Identificar de forma temprana anomalías y configuraciones inseguras.
+* **Aislamiento de Problemas:** Determinar la causa raíz (individual o cruzada) de las fallas.
+* **Recomendaciones de Mitigación:** Brindar soluciones preventivas y correctivas basadas en buenas prácticas de SysAdmin.
 
+---
 
-## **Flujo de Decisión**
-El sistema sigue un proceso secuencial para analizar el estado del servidor:
+## 🧠 Lógica de Diagnóstico (Motor de Reglas)
+El sistema evalúa el estado de salud del servidor mediante un conjunto de umbrales estrictos y reglas correlacionadas:
 
-1. **Ingreso y validacion de credenciales**  
-   Se le pedira al usuario que ingrese el (administrador, servidor, tipo de base de datos y sistema operativo) las mismas  seran validas mediante funciones importadas
+### Métricas Individuales 
+* **CPU Crítica:** Se activa cuando el uso de CPU supera el 85% (`CPU_MAX`).
+* **RAM Crítica:** Se activa cuando el uso de memoria RAM supera el 85% (`RAM_MAX`).
+* **Almacenamiento en Riesgo:** Se activa si el espacio disponible en disco baja de 60 GB (`DISCO_DISPONIBLE_MIN`).
+* **Saturación de Procesos:** Se activa si los procesos activos superan los 120 (`PROCESOS_MAX`).
+* **Saturación de Usuarios:** Se activa si los usuarios concurrentes superan los 50 (`USUARIOS_MAX`).
+* **Brecha de Seguridad (Firewall):** Se detecta riesgo alto si el estado del Firewall está en `"inactivo"`.
 
-2. **Inicio**  
-   Se le preguntara al usuario si desea iniciar el diagnotico o salir
+### Reglas Cruzadas y Correlación de Eventos
+* **Cuello de Botella de Hardware:** Detecta asimetría en el rendimiento si existe una diferencia de uso $\ge$ 40% entre la CPU y la RAM (`RAM_CPU_CUELLO_DE_BOTELLA`).
+* **Intensidad de CPU por Usuario:** Alerta si el porcentaje promedio de CPU consumido por un único usuario supera el 20% (`MAX_PROCESOS_POR_USER`).
+* **Estado Crítico Multivariable (RAM/Disco):** Dispara una alerta de colapso inminente si la RAM y el Disco se encuentran en estado crítico en simultáneo.
+* **Sospecha de Ataque (Procesos por Usuario):** Alerta por posible denegación de servicio (DoS) o fuga de hilos si un solo usuario genera más de 40 procesos (`POSIBLE_ATAQUE`).
+* **Vulnerabilidad de Entorno Corporativo:** Alerta crítica si el servidor aloja un entorno crítico (`"base de datos"` o `"archivos"`) corriendo sobre Sistema Operativo `"linux"` con el Firewall `"inactivo"`.
 
-3. **Ingreso y validación de datos**  
-   Se solicitaran variables referentes al servidor, las cuales son validadas mediante funciones importadas.
+---
 
-4. **Evaluación de reglas**  
-   Se aplican las logicas de diagnostico del sistema para detectar problemas y dar soluciones.
+## 🔀 Arquitectura del Sistema (Flujo de Decisión)
+El sistema implementa un patrón de diseño arquitectónico basado en la separación de responsabilidades. Para evitar el desorden de lógica en el punto de entrada, **los distintos módulos de tareas individuales (`inputs`, `output`, `reglas`, `calculos`, `funciones_de_validacion`) se agrupan y centralizan en un único módulo coordinador llamado `integracion_de_tareas.py`**.
 
-5. **Contador de riesgos**  
-   Cada regla cumplida incrementa un contador que determina el estado final del servidor:
-
-   - 0 → Servidor en buen estado  
-   - 1 a 2 : Fuera de lo normal  
-   - 3 a 4 : Estado de alerta
-   - 5 o más : Estado crítico  
-
-## **Ejemplo de Salida**
-
-**Datos ingresados:**
-
-CPU: 95% | RAM: 40% | Disco: 25 GB  
-Usuarios: 2 | Procesos: 80  
-SO: linux | Firewall: Inactivo  
+Este módulo de integración actúa como un orquestador que encapsula la complejidad del sistema y **divide el programa en 4 etapas limpias y secuenciales para el `main.py`**. La comunicación entre estas etapas se realiza mediante un pasaje de parámetros explícito a través de tuplas nativas, manteniendo la integridad de los datos sin recurrir a variables globales.
 
 
-**Datos que muestra:**
+[main.py] (Coordinador Principal)
+│
+├──➔ 1. etapa_bienvenida_y_login() ➔ Retorna (sistema_operativo, tipo_servidor)
+│
+|     if iniciar_sistema() == "si"
+│         │
+│         ├──➔ 2. etapa_carga_de_datos(sistema_operativo) ➔ Retorna (datos_ingresados)
+│         │
+│         ├──➔ 3. etapa_ejecucion_del_diagnostico(datos_ingresados, sistema_operativo, tipo_servidor) ➔ Retorna (resultados)
+│         │
+│         └──➔ 4. etapa_reporte_final(resultados_de_diagnostico)
+│
+└──➔ else: mostrar_salida_del_sistema()
 
+1. **PRIMERA ETAPA: Bienvenida y Login** Muestra la interfaz inicial y gestiona el bucle de credenciales. Una vez validada la autenticación, exporta el entorno del servidor (`sistema_operativo` y `tipo_servidor`) hacia el bloque principal.
 
+2. **SEGUNDA ETAPA: Carga de Datos** Recibe el sistema operativo actual para su posterior renderizado y solicita al operador las métricas actuales de hardware (CPU, RAM, Disco) y red. Almacena y empaqueta estos valores en una tupla nativa limpia (`datos_ingresados`).
+
+3. **TERCERA ETAPA: Diagnóstico (Motor de Reglas)** Toma la tupla de métricas junto con el contexto del servidor obtenido en el login. Ejecuta de forma secuencial las verificaciones individuales y las reglas cruzadas para correlacionar eventos (como cuellos de botella o sospechas de ataques), devolviendo la tupla con los veredictos (`resultados_de_diagnostico`).
+
+4. **CUARTA ETAPA: Reporte Final** Recibe los resultados analíticos, los desempaqueta posicionalmente y los envía a la interfaz de salida para imprimir en consola los riesgos, problemas detectados y las recomendaciones técnicas de mitigación.
+
+---
+
+## 📋 Ejemplo de Salida en Consola
+
+### Datos Ingresados:
+* **Hardware:** CPU: 95% | RAM: 40% | Disco: 25 GB
+* **Concurrencia:** Usuarios: 2 | Procesos: 80
+* **Entorno:** SO: linux | Firewall: Inactivo
+
+### Reporte Generado:
+```text
 [ CPU ]
-Riesgo: critico| CUIDADO
-Problema: sobrecarga en CPU. |  CPU: 95% cuello de botella respecto a RAM: 40% Diferencia de: 55% de uso
-Recomendación: optimizar el consumo del CPU. | COMPRE UNA MEJOR RAM
+Riesgo: CRÍTICO | CUIDADO
+Problema: Sobrecarga en CPU. CPU al 95% genera cuello de botella respecto a RAM al 40% (Diferencia del 55%).
+Recomendación: Optimizar el consumo de procesos de la CPU o actualizar módulos de memoria RAM.
 
 ------------------------------
-[  PROCESOS ]
-Riesgo:  | CUIDADO
-Problema:  |  El el promedio de PROCESOS de cada usuario es 40.0 . Posible ataque cibernetico o fuga de hilos
-Recomendación:  | Haga una verificacion del servidor para estar seguro.
+[ PROCESOS ]
+Riesgo: ALERTA | CUIDADO
+Problema: El promedio de PROCESOS de cada usuario es de 40.0. Posible ataque cibernético o fuga de hilos.
+Recomendación: Realizar una auditoría de hilos activos en el servidor para asegurar la estabilidad.
 
 ------------------------------
 [ USUARIOS ]
-Riesgo:  | CUIDADO
-Problema:  | Carga anormal. Cada usuario consume 47.5% de CPU. Sospecha de ataque cibernetico.
-Recomendación:  | investigue a ese usuario.
+Riesgo: ALERTA | CUIDADO
+Problema: Carga anormal. Cada usuario consume un promedio de 47.5% de CPU. Sospecha de proceso malicioso.
+Recomendación: Investigar los identificadores de procesos (PID) asociados a ese usuario de inmediato.
 
 ------------------------------
 [ ALMACENAMIENTO ]
-Riesgo: critico
-Problema: EL ALMACENAMIENTO ESTA POR AGOTARSE
-Recomendación: Aumentar capacidad de almacenamiento o eliminar archivos.
+Riesgo: CRÍTICO
+Problema: EL ALMACENAMIENTO ESTÁ POR AGOTARSE por debajo del mínimo seguro.
+Recomendación: Aumentar la capacidad de almacenamiento o purgar archivos temporales / logs antiguos.
 
 ------------------------------
 [ SEGURIDAD - FIREWALL ]
-Riesgo: critico
-Problema: El firewall esta desactivado.
-Recomendación: Activar el firewall y revisar el servidor por posibles amenazas.
+Riesgo: CRÍTICO
+Problema: El firewall perimetral está desactivado de forma insegura.
+Recomendación: Activar las reglas de iptables/ufw y revisar el servidor por posibles vectores de intrusión.
 
-!!!!!!!!!!!!!!!!!
-
-ALERTAS DEL SISTEMA: cuidado el servior de tipo: base de datos esta vulnerable a ataques en este sistema operativo linux
-
-!!!!!!!!!!!!!!!!! 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ALERTAS DE INFRAESTRUCTURA: El servidor de tipo [BASE DE DATOS] se encuentra altamente 
+vulnerable a ataques en entornos bajo el sistema operativo [LINUX].
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
