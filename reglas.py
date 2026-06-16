@@ -232,7 +232,7 @@ def verificaciion_de_cuello_de_botella(
             diagnostico_cpu[3] = diagnostico_cpu[3] + 1
 
 
-def verificacion_de_intensidad_de_cpu_por_usario(
+def verificacion_de_intensidad_de_cpu_por_usuario(
     cpu_usada: int, usuarios_conectados: int, diagnostico_usuarios: list
 ) -> None:
     """

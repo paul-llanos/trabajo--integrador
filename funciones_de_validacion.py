@@ -110,27 +110,28 @@ def validacion_datos_categoricos(dato: str, tipo: str) -> bool:
 def validacion_cadena(cadena: str) -> bool:
     """
     Verifica que la cadena ingresada no esté vacía, no contenga solo espacios
-    y tenga una longitud real de más de 5 caracteres válidos.
+    y tenga una longitud real de más de 5 caracteres.
 
     Args:
         cadena (str): Texto a validar (nombre de administrador o servidor).
 
     Returns:
-        bool: True si la cadena tiene más de 5 caracteres válidos, False de lo contrario.
+        bool: True si la cadena es válida y tiene más de 5 caracteres, False de lo contrario.
     """
 
-    if cadena == "":   # Si el dato esta vacío 
+    if cadena == "":   # Si el dato está completamente vacío
         return False
     
-    caracteres_validos = 0 # Creamos un contador para contar los carácteres ingresados
+    tiene_caracter_valido = False # Bandera para detectar que NO sean solo espacios
 
     for i in range(len(cadena)):  # Recorremos la cadena carácter por carácter
         caracter = cadena[i]
        
-        if caracter != " ":   # Si el carácter NO es un espacio, lo sumamos al contador
-            caracteres_validos += 1
-            
-    if caracteres_validos > 5:  # verifico si la cadena tiene mas de 5 caracteres
+        if caracter != " ":   # Si encontramos AL MENOS una letra o número, ya no son solo espacios
+            tiene_caracter_valido = True
+
+    # Para ser válida, tiene que medir más de 5 caracteres Y no ser solo espacios
+    if len(cadena) > 5 and tiene_caracter_valido:  
         return True
     else:
         return False

@@ -83,14 +83,7 @@ def mostrar_datos_ingresados(
     print(f"estado del firewall: {estado_firewall}")
 
 
-def reporte_final_del_servidor(
-    diagnostico_cpu: list,
-    diagnostico_ram: list,
-    diagnostico_usuarios: list,
-    diagnostico_procesos: list,
-    diagnostico_disco: list,
-    diagnostico_firewall: list,
-    diagnostico_de_vulnerabilidad: list,
+def reporte_final_del_servidor(resultados_diagnosticos: tuple
 ) -> None:
     """
     Genera y muestra el reporte final del diagnóstico del servidor.
@@ -111,6 +104,7 @@ def reporte_final_del_servidor(
     Returns:
         None: Esta función genera y muestra el reporte en pantalla.
     """
+    diagnostico_cpu, diagnostico_ram, diagnostico_usuarios, diagnostico_procesos, diagnostico_disco, diagnostico_firewall, diagnostico_de_vulnerabilidad = resultados_diagnosticos
     total_alertas = calculo_cantidad_de_errores_del_sistema(
         diagnostico_cpu,
         diagnostico_ram,
