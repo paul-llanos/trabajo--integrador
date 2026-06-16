@@ -59,14 +59,21 @@ Este módulo de integración actúa como un orquestador que encapsula la complej
 │         └──➔ 4. etapa_reporte_final(resultados_de_diagnostico)
 │
 └──➔ else: mostrar_salida_del_sistema()
+```
+1. **PRIMERA ETAPA: Bienvenida y Login**
+Muestra la interfaz inicial y gestiona el bucle de credenciales.
+Una vez validada la autenticación, exporta el entorno del servidor (`sistema_operativo` y `tipo_servidor`) hacia el bloque principal.
 
-1. **PRIMERA ETAPA: Bienvenida y Login** Muestra la interfaz inicial y gestiona el bucle de credenciales. Una vez validada la autenticación, exporta el entorno del servidor (`sistema_operativo` y `tipo_servidor`) hacia el bloque principal.
+2. **SEGUNDA ETAPA: Carga de Datos**
+Recibe el sistema operativo actual para su posterior renderizado y solicita al operador las métricas actuales de hardware (CPU, RAM, Disco) y red.
+Almacena y empaqueta estos valores en una tupla nativa limpia (`datos_ingresados`).
 
-2. **SEGUNDA ETAPA: Carga de Datos** Recibe el sistema operativo actual para su posterior renderizado y solicita al operador las métricas actuales de hardware (CPU, RAM, Disco) y red. Almacena y empaqueta estos valores en una tupla nativa limpia (`datos_ingresados`).
+3. **TERCERA ETAPA: Diagnóstico (Motor de Reglas)**
+Toma la tupla de métricas junto con el contexto del servidor obtenido en el login.
+Ejecuta de forma secuencial las verificaciones individuales y las reglas cruzadas para correlacionar eventos (como cuellos de botella o sospechas de ataques), devolviendo la tupla con los veredictos (`resultados_de_diagnostico`).
 
-3. **TERCERA ETAPA: Diagnóstico (Motor de Reglas)** Toma la tupla de métricas junto con el contexto del servidor obtenido en el login. Ejecuta de forma secuencial las verificaciones individuales y las reglas cruzadas para correlacionar eventos (como cuellos de botella o sospechas de ataques), devolviendo la tupla con los veredictos (`resultados_de_diagnostico`).
-
-4. **CUARTA ETAPA: Reporte Final** Recibe los resultados analíticos, los desempaqueta posicionalmente y los envía a la interfaz de salida para imprimir en consola los riesgos, problemas detectados y las recomendaciones técnicas de mitigación.
+4. **CUARTA ETAPA: Reporte Final**
+Recibe los resultados analíticos, los desempaqueta posicionalmente y los envía a la interfaz de salida para imprimir en consola los riesgos, problemas detectados y las recomendaciones técnicas de mitigación.
 
 ---
 
